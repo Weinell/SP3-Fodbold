@@ -1,35 +1,39 @@
 public class Player {
 
 
-    protected String name;
-    protected int ID;
-    static int counter = 0;
+    protected String playerName;
+    protected int playerID;
+    static int counter = 1;
 
 
     public Player(String name)   {
 
-        this.name = name;
-        this.ID = counter;
+        this.playerName = name;
+        this.playerID = counter;
         counter++;
 
     }
 
     public String getName() {
-        return name;
+        return playerName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.playerName = name;
     }
 
     public int getID() {
-        return ID;
+        return playerID;
     }
 
     public void setID(int ID) {
-        this.ID = ID;
+        this.playerID = ID;
     }
 
 
-
+    @Override
+    public String toString() {
+        return "Player = '" + playerName + '\'' +
+                ", Player ID = " + playerID;
+    }
 }
