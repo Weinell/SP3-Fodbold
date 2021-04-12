@@ -1,32 +1,35 @@
+import java.awt.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class IO {
 
 
-    Scanner scanner = new Scanner(System.in);
-    //Team team1 = new Team();
-
-
-    public IO() {
-    }
-
-    public String getUserInput(String msg){
+    public String getUserInput(String msg) {
         System.out.print(msg);
         Scanner scan = new Scanner(System.in);
         return scan.nextLine();
     }
 
-/*
-    public Team createTeams()   {
-
-        System.out.println("Write team name and name of team members ");
-        System.out.println(getUserInput("Team name: "));
-        Team.player1 = getUserInput("Member 1: ");
-        getUserInput("Member 2: ");
-
-
-
+    public int getUserInputInteger(String msg) {
+        System.out.print(msg);
+        Scanner scan = new Scanner(System.in);
+        return scan.nextInt();
     }
-*/
 
+
+
+    public void save() {
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter("src/data.txt");
+            for(Team teams : Controller.teams)
+                fw.write(teams.toString()+"\n");
+            fw.close();
+        } catch (Exception e) {
+            System.out.println("Couldn't save");
+        }
+    }
 }
