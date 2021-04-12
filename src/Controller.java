@@ -12,7 +12,7 @@ public class Controller {
 
     protected static ArrayList<Team> teams = new ArrayList<>(); // Database of all teams. Not necessarily a part of any tournaments yet.
 
-    // TODO: maybe just put it into the constructer of the controller class.
+    // TODO: maybe just put it into the constructor of the controller class.
     public void mainApplication() {
         // Makes sure the application loads the database of previously added teams.
         teams = readTeamData();
@@ -38,7 +38,7 @@ public class Controller {
                 "5) Start Tournament " + "\n" +
                 "6) Print Tree " + "\n" +
 
-                "\nChoice action: ");
+                "\nChoose action: ");
         System.out.println("\n======================================\n");
         getEvent(input);
     }
@@ -121,10 +121,10 @@ public class Controller {
 
     // TODO: When tournament start, app should create 8 new match objects and put them into an array
     public void eventStartTournament() {
-        if (tournament.isTournFull() && !tournament.isTournamentStarted()) {   // booleans makes sure you cant start the tournament if there is not enough teams admitted.
+        if (tournament.isTournamentFull() && !tournament.isTournamentStarted()) {   // booleans makes sure you cant start the tournament if there is not enough teams admitted.
             tournament.randomizerOrderOfArray();    // Created a method to randomize the order of the teams, so its unpredictable who will go up against each other
             tournament.setTournamentStarted(true); // preventing app to start the same tournament twice.
-            for (Team team : tournament.getTeams()) {
+            for (Team team : tournament.getTeamsInTournament()) {
                 System.out.println(team.getTeamName());
             }
         }
