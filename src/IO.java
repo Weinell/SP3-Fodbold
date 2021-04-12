@@ -3,12 +3,10 @@ import java.util.Scanner;
 public class IO {
 
 
-    Scanner scanner = new Scanner(System.in);
+
     //Team team1 = new Team();
 
 
-    public IO() {
-    }
 
     public String getUserInput(String msg){
         System.out.print(msg);
