@@ -66,6 +66,19 @@ public class Tournament {
 
     }
 
+    public void printTeamsInTournament() {
+        System.out.println("Teams in " + tournamentName + ":");
+        for(int i = 0; i < numberTeamsInTournament; i++) {
+            if (teamsInTournament[i].getTeamName() != null) {
+                System.out.println(
+                        teamsInTournament[i].getTeamID() + ") " +
+                        teamsInTournament[i].getTeamName() + " (" +
+                        teamsInTournament[i].getPlayer1().getName() + " and " +
+                        teamsInTournament[i].getPlayer2().getName() + ")");
+            }
+        }
+    }
+
     public boolean isTournamentFull() {
         return tournamentFull;
     }

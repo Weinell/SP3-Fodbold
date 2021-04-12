@@ -9,6 +9,5 @@ public class Main {
         while (isRunning) {
             c.mainApplication();
         }
-
     }
 }
