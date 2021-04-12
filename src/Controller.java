@@ -6,22 +6,28 @@ import java.util.Scanner;
 public class Controller {
 
     protected Tournament tournament;
-    protected boolean activeTournament = false;
+    protected boolean activeTournament = false;  // When true, current tournament name and numbers of teams are shown in the top of the welcome message.
     protected IO io = new IO();
 
 
-    protected static ArrayList<Team> teams = new ArrayList<>();
+    protected static ArrayList<Team> teams = new ArrayList<>(); // Database of all teams. Not necessarily a part of any tournaments yet.
 
+    // TODO: maybe just put it into the constructer of the controller class.
     public void mainApplication() {
+        // Makes sure the application loads the database of previously added teams.
+        teams = readTeamData();
         welcomeMessage();
     }
 
+
     public void welcomeMessage() {
         System.out.println("\n======================================");
+        // Ternary controls if active tournament is shown or not.
         String activeName = activeTournament ? tournament.getTournamentName() : "No active tournament";
         String activeTeams = activeTournament ? tournament.teamsInTournament() : "";
         System.out.println("\nNext event: " + activeName + "\n" + activeTeams);
 
+        // TODO: Make smaller menus and sub menus.
         System.out.println("\nWhat do you wish to do? ");
         String input = "";
         input = io.getUserInput("\n" +
@@ -36,7 +42,6 @@ public class Controller {
         System.out.println("\n======================================\n");
         getEvent(input);
     }
-
 
     public void getEvent(String input) {
         switch (input) {
@@ -55,9 +60,6 @@ public class Controller {
             case "5":
                 eventStartTournament();
                 break;
-            case "7":
-                teams = readTeamData();
-                break;
         }
     }
 
@@ -71,11 +73,11 @@ public class Controller {
                 input = io.getUserInput("\nWhats the name of the tournament: ");
                 tournament = new Tournament(16, input);
                 activeTournament = true;
-//                    System.out.println("\n" + t.teamsInTournament());
             } else if (input.equals("n")) {
-                System.out.println("Something else");
+                System.out.println("\n No new tournament created.");
             } else {
-                System.out.println("Wrong input");
+                System.out.println("\nWrong input");
+                eventNewTournament();
             }
         } else {
             System.out.println("\nThere is already an active tournament.");
@@ -104,21 +106,24 @@ public class Controller {
     }
 
     public void eventCreateTeams() {
-        teams.add(new Team());
-        io.save();
+        teams.add(new Team()); // Creates a new team which then ask for details about team and player names
+        io.save(); // Saves to data.txt everytime a new team is created.
 
     }
 
+    // TODO: So far its only to print a list of all the teams. Maybe we should add an search and edit function
     public void eventManageTeams() {
         for (Team t : teams) {
             System.out.println(t.getTeamID() + ") " + t.getTeamName() + " (" + t.getPlayer1().getName() + " and " + t.getPlayer2().getName() + ")");
         }
     }
 
+
+    // TODO: When tournament start, app should create 8 new match objects and put them into an array
     public void eventStartTournament() {
-        if (tournament.isTournFull() && !tournament.isTournamentStarted()) {
-            tournament.randomizerOrderOfArray();
-            tournament.setTournamentStarted(true);
+        if (tournament.isTournFull() && !tournament.isTournamentStarted()) {   // booleans makes sure you cant start the tournament if there is not enough teams admitted.
+            tournament.randomizerOrderOfArray();    // Created a method to randomize the order of the teams, so its unpredictable who will go up against each other
+            tournament.setTournamentStarted(true); // preventing app to start the same tournament twice.
             for (Team team : tournament.getTeams()) {
                 System.out.println(team.getTeamName());
             }
@@ -145,10 +150,13 @@ public class Controller {
                 String player2 = commaSeperatedValues[4];
                 int player2ID = Integer.parseInt(commaSeperatedValues[5]);
 
+                // We created a new constructor inside the Team class, which assigns the data to the respectable variables.
                 teamList.add(new Team(teamName, teamID, player1, player1ID, player2, player2ID));
             }
         }
 
         return teamList;
     }
+
+    // TODO: Make another read data method with tournament data.
 }
