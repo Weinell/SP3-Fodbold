@@ -1,10 +1,14 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Controller {
 
     protected Tournament tournament;
     protected boolean activeTournament = false;
     protected IO io = new IO();
+
 
     protected static ArrayList<Team> teams = new ArrayList<>();
 
@@ -29,7 +33,7 @@ public class Controller {
                 "6) Print Tree " + "\n" +
 
                 "\nChoice action: ");
-        System.out.println("\n======================================");
+        System.out.println("\n======================================\n");
         getEvent(input);
     }
 
@@ -50,6 +54,9 @@ public class Controller {
                 break;
             case "5":
                 eventStartTournament();
+                break;
+            case "7":
+                teams = readTeamData();
                 break;
         }
     }
@@ -109,12 +116,39 @@ public class Controller {
     }
 
     public void eventStartTournament() {
-        if (tournament.isTournFull() && tournament.isTournamentStarted()) {
+        if (tournament.isTournFull() && !tournament.isTournamentStarted()) {
             tournament.randomizerOrderOfArray();
             tournament.setTournamentStarted(true);
             for (Team team : tournament.getTeams()) {
                 System.out.println(team.getTeamName());
             }
         }
+    }
+
+    public static ArrayList<Team> readTeamData() {
+        ArrayList<Team> teamList = new ArrayList<>();
+
+        File file = new File("src/data.txt");
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (scanner != null) {
+            while (scanner.hasNextLine()) {
+                String[] commaSeperatedValues = scanner.nextLine().split(",");
+                String teamName = commaSeperatedValues[0];
+                int teamID = Integer.parseInt(commaSeperatedValues[1]);
+                String player1 = commaSeperatedValues[2];
+                int player1ID = Integer.parseInt(commaSeperatedValues[3]);
+                String player2 = commaSeperatedValues[4];
+                int player2ID = Integer.parseInt(commaSeperatedValues[5]);
+
+                teamList.add(new Team(teamName, teamID, player1, player1ID, player2, player2ID));
+            }
+        }
+
+        return teamList;
     }
 }

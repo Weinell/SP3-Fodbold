@@ -15,6 +15,11 @@ public class Player {
         createPlayer(member);
 
     }
+    public Player(String name, int playerID)   {
+        this.playerID = playerID;
+        this.playerName = name;
+    }
+
 
     public void createPlayer(String member) {
         String name = io.getUserInput(member);
@@ -45,7 +50,7 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player = '" + playerName + '\'' +
-                ", Player ID = " + playerID;
+        return playerName +
+                "," + playerID;
     }
 }

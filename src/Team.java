@@ -16,6 +16,15 @@ public class Team {
         createTeams();
     }
 
+    public Team(String teamName, int teamID, String player1, int player1ID, String player2, int player2ID) {
+        this.teamName = teamName;
+        this.teamID = teamID;
+        this.player1 = new Player(player1, player1ID);
+        this.player2 = new Player(player2, player2ID);
+
+
+    }
+
     public void createTeams(){
         String name = io.getUserInput("Insert Team name: ");
         if(!name.equals("")) {
@@ -63,10 +72,10 @@ public class Team {
 
     @Override
     public String toString() {
-        return  "teamName='" + teamName + '\'' +
-                ", teamID = " + teamID +
-                ", player1 = " + player1 +
-                ", Player2 = " + player2;
+        return  teamName +
+                "," + teamID +
+                "," + player1 +
+                "," + player2;
 
     }
 
