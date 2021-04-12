@@ -24,8 +24,6 @@ public class Team {
             this.teamName = "Team " + teamID;
         }
 
-
-
         System.out.println("\nTeam: " + teamName);
         this.player1 = new Player("Member 1: ");
         this.player2 = new Player("Member 2: ");
