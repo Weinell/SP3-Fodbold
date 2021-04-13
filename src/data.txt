@@ -1,16 +1,16 @@
-Team 1,1,Unknown name,1,Unknown name,2
-Team 2,2,Unknown name,3,Unknown name,4
-Team 3,3,Unknown name,5,Unknown name,6
-Team 4,4,Unknown name,7,Unknown name,8
-Team 5,5,Unknown name,9,Unknown name,10
-Team 6,6,Unknown name,11,Unknown name,12
-Team 7,7,Unknown name,13,Unknown name,14
-Team 8,8,Unknown name,15,Unknown name,16
-Team 9,9,Unknown name,17,Unknown name,18
-Team 10,10,Unknown name,19,Unknown name,20
-Team 11,11,Unknown name,21,Unknown name,22
-Team 12,12,Unknown name,23,Unknown name,24
-Team 13,13,Unknown name,25,Unknown name,26
-Team 14,14,Unknown name,27,Unknown name,28
-Team 15,15,Unknown name,29,Unknown name,30
-Team 16,16,Unknown name,31,Unknown name,32
+Aarhus,1,Allan,1,Anja,2
+Bangers,2,Bo,3,Buller,4
+Craziness,3,Christian,5,Curtis,6
+DingDong,4,Dan,7,Ditte,8
+Eske's Dreamteam,5,Eske,9,Eigil,10
+Freaky Friday,6,Frederik,11,Fissan,12
+Greek Mafia,7,Gregers,13,Gunther,14
+Hallelujahs,8,Hans,15,Heidi,16
+Illers,9,Ida,17,Ivan,18
+Jonas' DreamTeam,10,Jonas,19,SpillerAlene,20
+Killers,11,Kim,21,Kian,22
+LoveBoat,12,Lau,23,Louie,24
+Mads' DreamTeam,13,Mads,25,Mikkel,26
+Nikolaj's DreamTeam,14,Nikolaj,27,Nikolai,28
+Omega,15,Ole,29,Oda,30
+Party Poopers,16,Polle,31,Putte,32
