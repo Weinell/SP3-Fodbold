@@ -1,4 +1,9 @@
+<<<<<<< Updated upstream
 Team 1,1,Unknown name,1,Unknown name,2
 Team 2,2,Unknown name,3,Unknown name,4
 Team 3,3,Unknown name,5,Unknown name,6
 Team 4,4,Unknown name,7,Unknown name,8
+=======
+A team,1,MAds,1,Unknown name,2
+B Team,2,Eske,3,Jonas,4
+>>>>>>> Stashed changes
