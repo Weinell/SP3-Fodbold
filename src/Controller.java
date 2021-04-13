@@ -151,4 +151,32 @@ public class Controller {
 
         return teamList;
     }
+<<<<<<< Updated upstream
+=======
+
+    // TODO: Make another read data method with tournament data.
+
+    public static ArrayList<Tournament> readTournamentData()
+    {
+        ArrayList <Tournament> tournamentList = new ArrayList<>();
+        File file = new File("src/tourData.txt");
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(file);
+        } catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+
+        }
+        if(scanner != null)
+        {
+            while(scanner.hasNextLine())
+            {
+                String [] commaSeparatedValues = scanner.nextLine().split(",");
+
+            }
+        }
+        return tournamentList;
+    }
+>>>>>>> Stashed changes
 }
