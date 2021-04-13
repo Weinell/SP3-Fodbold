@@ -3,28 +3,43 @@ public class Team {
     protected String teamName;
     protected int teamID;
     static int counter = 1;
-    IO io = new IO();
 
-    protected boolean addedToActiveTournament = false;
+    protected int teamGoals;
+    protected int teamPoints;
+
+
+    protected IO io = new IO();
+
+    protected boolean addedToActiveTournament = false;  // Teams can only be added once because of this bool.
 
     protected Player player1, player2;
 
+    // Constructer for new team.
     public Team() {
         this.teamID = counter;
         counter++;
 
         createTeams();
+        this.teamGoals = 0;
+        this.teamPoints = 0;
     }
 
+    // Constructor for loaded data.
     public Team(String teamName, int teamID, String player1, int player1ID, String player2, int player2ID) {
         this.teamName = teamName;
         this.teamID = teamID;
         this.player1 = new Player(player1, player1ID);
         this.player2 = new Player(player2, player2ID);
+        counter++;   // This solved our ID index issue.
+
+        this.teamGoals = 0;
+        this.teamPoints = 0;
 
 
     }
 
+    // If the game manager dont assign a team/player name, the app while then assign a default "Team x".
+    // This function also automatically creates two new player objects and assing them as player 1 and 2.
     public void createTeams(){
         String name = io.getUserInput("Insert Team name: ");
         if(!name.equals("")) {
