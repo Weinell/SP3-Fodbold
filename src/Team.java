@@ -3,7 +3,12 @@ public class Team {
     protected String teamName;
     protected int teamID;
     static int counter = 1;
-    IO io = new IO();
+
+    protected int teamGoals;
+    protected int teamPoints;
+
+
+    protected IO io = new IO();
 
     protected boolean addedToActiveTournament = false;  // Teams can only be added once because of this bool.
 
@@ -15,6 +20,8 @@ public class Team {
         counter++;
 
         createTeams();
+        this.teamGoals = 0;
+        this.teamPoints = 0;
     }
 
     // Constructor for loaded data.
@@ -24,6 +31,9 @@ public class Team {
         this.player1 = new Player(player1, player1ID);
         this.player2 = new Player(player2, player2ID);
         counter++;   // This solved our ID index issue.
+
+        this.teamGoals = 0;
+        this.teamPoints = 0;
 
 
     }

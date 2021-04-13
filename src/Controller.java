@@ -11,7 +11,7 @@ public class Controller {
 
     protected static ArrayList<Team> teams = new ArrayList<>(); // Database of all teams. Not necessarily a part of any tournaments yet.
 
-    boolean goBack = false;
+    boolean goBack = false;  // Used inside the menus.
 
     // TODO: maybe just put it into the constructor of the controller class.
     public void mainApplication() {
@@ -27,6 +27,8 @@ public class Controller {
         String activeName = activeTournament ? tournament.getTournamentName() : "No active tournament";
         String activeTeams = activeTournament ? tournament.teamsInTournament() : "";
         System.out.println("\nNext event: " + activeName + "\n" + activeTeams);
+        System.out.println("\nCreate a new  ");
+
 
         System.out.println("\nWhat do you wish to do? ");
         String input = "";
@@ -66,7 +68,8 @@ public class Controller {
                     "3) Overview of added teams " + "\n" +
                     "4) Start Tournament " + "\n" +
                     "5) Print fixtures " + "\n" +
-                    "6) back " + "\n" +
+                    "6) Results " + "\n" +
+                    "7) back " + "\n" +
 
                     "\nChoice action: ");
             System.out.println("\n======================================\n");
@@ -81,12 +84,16 @@ public class Controller {
             case "3" -> eventPrintTeams();
             case "4" -> eventStartTournament();
             case "5" -> eventPrintFixtures();
-            case "6" -> {
+            case "6" -> eventResults();
+            case "7" -> {
                 goBack = true;
                 welcomeMessage();
             }
         }
     }
+
+
+    // All Tournament events
 
     public void eventNewTournament() {
         if (!activeTournament) {
@@ -114,7 +121,7 @@ public class Controller {
             System.out.println("Add team(s) to tournament, end with 0: ");
 
             goBack = false;
-            while (!goBack) {
+            while (!goBack && !tournament.isTournamentFull()) {
                 int input = 0;
                 input = io.getUserInputInteger("\nInput Team ID to add to tournament: ");
                 if (input == 0) {
@@ -151,10 +158,12 @@ public class Controller {
             if (tournament.isTournamentFull() && !tournament.isTournamentStarted()) {   // booleans makes sure you cant start the tournament if there is not enough teams admitted.
                 tournament.randomizerOrderOfArray();    // Created a method to randomize the order of the teams, so its unpredictable who will go up against each other
                 tournament.setTournamentStarted(true); // preventing app to start the same tournament twice.
-                for (Team team : tournament.getTeamsInTournament()) {
-                    System.out.println(team.getTeamName());
-                }
+
+//                for (Team team : tournament.getTeamsInTournament()) {
+//                    System.out.println(team.getTeamName());
+//                }
                 tournament.setMatches8(tournament.createRound(tournament.getTeamsInTournament()));
+                eventPrintFixtures();
 
             }
         } else {
@@ -166,6 +175,21 @@ public class Controller {
         System.out.println("Games in 1st Round:\n");
         for (Match match : tournament.getMatches8()) {
             System.out.println(match);
+        }
+    }
+
+    private void eventResults() {
+        while (!tournament.tournamentFinished) {
+            // first round
+            Team[] teamsQuaterFinal = tournament.resultOfMatch8();
+            tournament.matches4 = tournament.createRound(teamsQuaterFinal);
+            // Quater Finals
+            System.out.println("\nQuaterFinals");
+            System.out.println("============");
+            for (Match match : tournament.getMatches4()) {
+                System.out.println(match);
+            }
+            Team[] teamsSemiFinal = tournament.resultOfMatch4();
         }
     }
 
@@ -187,6 +211,8 @@ public class Controller {
         }
 
     }
+
+    // All team events
 
     public void getTeamEvent(String input) {
         switch (input) {

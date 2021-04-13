@@ -8,7 +8,6 @@ public class Tournament {
     protected int tournamentID;
     protected static int counter = 1;
 
-
     protected Team[] teamsInTournament; // Changed from teams
     protected boolean tournamentFull;
     protected int numberTeamsInTournament = 0;  // When this hits the max size of the tournament is sets tournamentFull to true
@@ -20,6 +19,8 @@ public class Tournament {
     // Each round have an array of matches
     protected Match[] matches8, matches4, matches2;  // Round 1, Quarter Final, Semi Final
     protected Match finalMatch;
+
+    IO io = new IO();
 
     public Tournament(int numbTeams, String tournamentName) {
         this.tournamentName = tournamentName;
@@ -48,25 +49,18 @@ public class Tournament {
                     break;
                 }
             }
-
         }
         // Checks after each adding if the tournament is full then.
         if (numberTeamsInTournament == teamsInTournament.length) {
             tournamentFull = true;
         }
-
     }
 
     public void randomizerOrderOfArray() {
         List<Team> randomList = Arrays.asList(teamsInTournament);
-
         Collections.shuffle(randomList);
-
         randomList.toArray(teamsInTournament);
     }
-
-
-
 
     // Monitoring the number of participants of this tournament
     public String teamsInTournament() {
@@ -87,6 +81,7 @@ public class Tournament {
         }
     }
 
+    // This should work for any round
     public Match[] createRound(Team[] teams) {
         Match[] newMatches = new Match[teams.length/2];
         for (int k = 0; k < teams.length/2; k++) {
@@ -102,6 +97,55 @@ public class Tournament {
         }
         return newMatches;
     }
+
+    public Team[] resultOfMatch8() {
+        Team[] tempWinners = new Team[8];
+        for (int i = 0; i < matches8.length; i++) {
+            System.out.println("\n" + matches8[i].getTeam1().getTeamName() + " vs. " + matches8[i].getTeam2().getTeamName() + "\n");
+            int s1 = io.getUserInputInteger("Enter " + matches8[i].getTeam1().getTeamName() + " goals: ");
+            int s2 = io.getUserInputInteger("Enter " + matches8[i].getTeam2().getTeamName() + " goals: ");
+            matches8[i].setScore1(s1);
+            matches8[i].setScore2(s2);
+            System.out.println(matches8[i].getScore1() + " - " + matches8[i].getScore2());
+            if (s1>s2) {
+                tempWinners[i] = matches8[i].getTeam1();
+            } else {
+                tempWinners[i] = matches8[i].getTeam2();
+            }
+        }
+        return tempWinners;
+    }
+
+    public Team[] resultOfMatch4() {
+        Team[] tempWinners = new Team[4];
+        for (int i = 0; i < matches4.length; i++) {
+            System.out.println("\n" + matches4[i].getTeam1().getTeamName() + " vs. " + matches4[i].getTeam2().getTeamName() + "\n");
+            int s1 = io.getUserInputInteger("Enter " + matches4[i].getTeam1().getTeamName() + " goals: ");
+            int s2 = io.getUserInputInteger("Enter " + matches4[i].getTeam2().getTeamName() + " goals: ");
+            matches4[i].setScore1(s1);
+            matches4[i].setScore2(s2);
+            System.out.println(matches4[i].getScore1() + " - " + matches4[i].getScore2());
+            if (s1>s2) {
+                tempWinners[i] = matches4[i].getTeam1();
+            } else {
+                tempWinners[i] = matches4[i].getTeam2();
+            }
+        }
+        return tempWinners;
+    }
+
+//    public void advancingTeams() {
+//        int i = 0;
+//        for (Match match : matches8) {
+//            if (match.getScore1()>match.getScore2()) {
+//                matches4[i].setTeam1(match.getTeam1());
+//
+//            } else {
+//                matches4[i].setTeam2(match.getTeam1());
+//            }
+//            i++;
+//        }
+//    }
 
 
     public boolean isTournamentFull() {
