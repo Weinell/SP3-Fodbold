@@ -18,6 +18,7 @@ public class Player {
     public Player(String name, int playerID)   {
         this.playerID = playerID;
         this.playerName = name;
+        counter++;
     }
 
 
@@ -26,7 +27,7 @@ public class Player {
         if(!name.equals("")) {
             this.playerName = name;
         } else {
-            this.playerName = "Unknown name";
+            this.playerName = "Unknown name";  // Unknown if nothing is selected. We dont want empty fields in our data files.
         }
 
     }
