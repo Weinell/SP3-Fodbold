@@ -43,21 +43,13 @@ public class Controller {
 
     public void getMainEvent(String input) {
         switch (input) {
-            case "1":
-                eventTournaments();
-                break;
-            case "2":
-                eventTeams();
-                break;
-            case "3":
-//                eventPlayers();
-                System.out.println("Not implemented yet");
-
-                break;
-            case "4":
+            case "1" -> eventTournaments();
+            case "2" -> eventTeams();
+            case "3" -> System.out.println("Not implemented yet");
+            case "4" -> {
                 System.out.println("QUIT!");
                 ;
-                break;
+            }
         }
     }
 
@@ -73,7 +65,8 @@ public class Controller {
                     "2) Add teams " + "\n" +
                     "3) Overview of added teams " + "\n" +
                     "4) Start Tournament " + "\n" +
-                    "5) back " + "\n" +
+                    "5) Print fixtures " + "\n" +
+                    "6) back " + "\n" +
 
                     "\nChoice action: ");
             System.out.println("\n======================================\n");
@@ -83,21 +76,15 @@ public class Controller {
 
     public void getTournamentEvent(String input) {
         switch (input) {
-            case "1":
-                eventNewTournament();
-                break;
-            case "2":
-                eventManageTournament();
-                break;
-            case "3":
-                eventPrintTeams();
-                break;
-            case "4":
-                eventStartTournament();
-                break;
-            case "5":
+            case "1" -> eventNewTournament();
+            case "2" -> eventManageTournament();
+            case "3" -> eventPrintTeams();
+            case "4" -> eventStartTournament();
+            case "5" -> eventPrintFixtures();
+            case "6" -> {
                 goBack = true;
                 welcomeMessage();
+            }
         }
     }
 
@@ -130,7 +117,7 @@ public class Controller {
             while (!goBack) {
                 int input = 0;
                 input = io.getUserInputInteger("\nInput Team ID to add to tournament: ");
-                if(input==0) {
+                if (input == 0) {
                     goBack = true;
                     eventTournaments();
                 }
@@ -160,12 +147,25 @@ public class Controller {
 
     // TODO: When tournament start, app should create 8 new match objects and put them into an array
     public void eventStartTournament() {
-        if (tournament.isTournamentFull() && !tournament.isTournamentStarted()) {   // booleans makes sure you cant start the tournament if there is not enough teams admitted.
-            tournament.randomizerOrderOfArray();    // Created a method to randomize the order of the teams, so its unpredictable who will go up against each other
-            tournament.setTournamentStarted(true); // preventing app to start the same tournament twice.
-            for (Team team : tournament.getTeamsInTournament()) {
-                System.out.println(team.getTeamName());
+        if (tournament != null) {
+            if (tournament.isTournamentFull() && !tournament.isTournamentStarted()) {   // booleans makes sure you cant start the tournament if there is not enough teams admitted.
+                tournament.randomizerOrderOfArray();    // Created a method to randomize the order of the teams, so its unpredictable who will go up against each other
+                tournament.setTournamentStarted(true); // preventing app to start the same tournament twice.
+                for (Team team : tournament.getTeamsInTournament()) {
+                    System.out.println(team.getTeamName());
+                }
+                tournament.setMatches8(tournament.createRound(tournament.getTeamsInTournament()));
+
             }
+        } else {
+            System.out.println("\nNo Active tournament, please Create a new first.");
+        }
+    }
+
+    public void eventPrintFixtures() {
+        System.out.println("Games in 1st Round:\n");
+        for (Match match : tournament.getMatches8()) {
+            System.out.println(match);
         }
     }
 
@@ -190,16 +190,12 @@ public class Controller {
 
     public void getTeamEvent(String input) {
         switch (input) {
-            case "1":
-                eventCreateTeams();
-                break;
-            case "2":
-                eventManageTeams();
-                break;
-            case "3":
+            case "1" -> eventCreateTeams();
+            case "2" -> eventManageTeams();
+            case "3" -> {
                 goBack = true;
                 welcomeMessage();
-                break;
+            }
         }
     }
 

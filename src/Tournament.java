@@ -17,6 +17,10 @@ public class Tournament {
     protected boolean tournamentStarted;
     protected boolean tournamentFinished;
 
+    // Each round have an array of matches
+    protected Match[] matches8, matches4, matches2;  // Round 1, Quarter Final, Semi Final
+    protected Match finalMatch;
+
     public Tournament(int numbTeams, String tournamentName) {
         this.tournamentName = tournamentName;
         this.tournamentID = counter;
@@ -25,6 +29,10 @@ public class Tournament {
         tournamentFull = false;
         tournamentStarted = false;
         tournamentFinished = false;
+        this.matches8 = new Match[8];
+        this.matches4 = new Match[4];
+        this.matches2 = new Match[2];
+        this.finalMatch = null;
 
     }
 
@@ -49,12 +57,12 @@ public class Tournament {
 
     }
 
-    public Team[] randomizerOrderOfArray() {
+    public void randomizerOrderOfArray() {
         List<Team> randomList = Arrays.asList(teamsInTournament);
 
         Collections.shuffle(randomList);
 
-        return randomList.toArray(teamsInTournament);
+        randomList.toArray(teamsInTournament);
     }
 
 
@@ -78,6 +86,23 @@ public class Tournament {
             }
         }
     }
+
+    public Match[] createRound(Team[] teams) {
+        Match[] newMatches = new Match[teams.length/2];
+        for (int k = 0; k < teams.length/2; k++) {
+            newMatches[k] = new Match();
+        }
+        int i = 0;
+        int j = 1;
+        for(Match match : newMatches) {
+            match.setTeam1(teams[i]);
+            match.setTeam2(teams[j]);
+            i+=2;
+            j+=2;
+        }
+        return newMatches;
+    }
+
 
     public boolean isTournamentFull() {
         return tournamentFull;
@@ -122,5 +147,37 @@ public class Tournament {
 
     public void setTeamsInTournament(Team[] teams) {
         this.teamsInTournament = teams;
+    }
+
+    public Match[] getMatches8() {
+        return matches8;
+    }
+
+    public void setMatches8(Match[] matches8) {
+        this.matches8 = matches8;
+    }
+
+    public Match[] getMatches4() {
+        return matches4;
+    }
+
+    public void setMatches4(Match[] matches4) {
+        this.matches4 = matches4;
+    }
+
+    public Match[] getMatches2() {
+        return matches2;
+    }
+
+    public void setMatches2(Match[] matches2) {
+        this.matches2 = matches2;
+    }
+
+    public Match getFinalMatch() {
+        return finalMatch;
+    }
+
+    public void setFinalMatch(Match finalMatch) {
+        this.finalMatch = finalMatch;
     }
 }
