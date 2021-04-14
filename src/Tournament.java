@@ -9,12 +9,8 @@ public class Tournament {
     protected static int counter = 1;
 
     protected Team[] teamsInTournament; // Changed from teams
-    protected boolean tournamentFull;
+    protected boolean tournamentFull, tournamentStarted, tournamentFinished; // Important booleans to make sure user don't tries to access unavailable stages of the application
     protected int numberTeamsInTournament = 0;  // When this hits the max size of the tournament is sets tournamentFull to true
-
-    // Used to lock or unlock certain functions.
-    protected boolean tournamentStarted;
-    protected boolean tournamentFinished;
 
     // Each round have an array of matches
     protected Match[] matches8, matches4, matches2;  // Round 1, Quarter Final, Semi Final
@@ -33,8 +29,7 @@ public class Tournament {
         this.matches8 = new Match[8];
         this.matches4 = new Match[4];
         this.matches2 = new Match[2];
-        this.finalMatch = null;
-
+        this.finalMatch = new Match(new Team("first", 0), new Team("second", 0));
     }
 
     // Get team from controller class, and checks if there is room in the tournament before adding it.
@@ -44,7 +39,7 @@ public class Tournament {
                 if (teamsInTournament[i] == null) {
                     teamsInTournament[i] = team;
                     numberTeamsInTournament++;
-                    System.out.println(team.getTeamName() + " Added");
+                    System.out.println(team.getTeamName() + " Added. Add more teams or end with 0");
                     team.setAddedToActiveTournament(true);
                     break;
                 }
@@ -65,36 +60,42 @@ public class Tournament {
     // Monitoring the number of participants of this tournament
     public String teamsInTournament() {
         return numberTeamsInTournament + " Teams out of " + teamsInTournament.length;
-
     }
 
     public void printTeamsInTournament() {
         System.out.println("Teams in " + tournamentName + ":");
-        for(int i = 0; i < numberTeamsInTournament; i++) {
+        for (int i = 0; i < numberTeamsInTournament; i++) {
             if (teamsInTournament[i].getTeamName() != null) {
                 System.out.println(
                         teamsInTournament[i].getTeamID() + ") " +
-                        teamsInTournament[i].getTeamName() + " (" +
-                        teamsInTournament[i].getPlayer1().getName() + " and " +
-                        teamsInTournament[i].getPlayer2().getName() + ")");
+                                teamsInTournament[i].getTeamName() + " (" +
+                                teamsInTournament[i].getPlayer1().getName() + " and " +
+                                teamsInTournament[i].getPlayer2().getName() + ")");
             }
         }
     }
 
     // This should work for any round
     public Match[] createRound(Team[] teams) {
-        Match[] newMatches = new Match[teams.length/2];
-        for (int k = 0; k < teams.length/2; k++) {
+        Match[] newMatches = new Match[teams.length / 2];
+        for (int k = 0; k < teams.length / 2; k++) {
             newMatches[k] = new Match();
         }
         int i = 0;
         int j = 1;
-        for(Match match : newMatches) {
+        for (Match match : newMatches) {
             match.setTeam1(teams[i]);
             match.setTeam2(teams[j]);
-            i+=2;
-            j+=2;
+            i += 2;
+            j += 2;
         }
+        return newMatches;
+    }
+
+    public Match createFinalRound(Team[] teams) {
+        Match newMatches = new Match();
+        newMatches.setTeam1(teams[0]);
+        newMatches.setTeam2(teams[1]);
         return newMatches;
     }
 
@@ -107,7 +108,7 @@ public class Tournament {
             matches8[i].setScore1(s1);
             matches8[i].setScore2(s2);
             System.out.println(matches8[i].getScore1() + " - " + matches8[i].getScore2());
-            if (s1>s2) {
+            if (s1 > s2) {
                 tempWinners[i] = matches8[i].getTeam1();
             } else {
                 tempWinners[i] = matches8[i].getTeam2();
@@ -125,7 +126,7 @@ public class Tournament {
             matches4[i].setScore1(s1);
             matches4[i].setScore2(s2);
             System.out.println(matches4[i].getScore1() + " - " + matches4[i].getScore2());
-            if (s1>s2) {
+            if (s1 > s2) {
                 tempWinners[i] = matches4[i].getTeam1();
             } else {
                 tempWinners[i] = matches4[i].getTeam2();
@@ -134,18 +135,40 @@ public class Tournament {
         return tempWinners;
     }
 
-//    public void advancingTeams() {
-//        int i = 0;
-//        for (Match match : matches8) {
-//            if (match.getScore1()>match.getScore2()) {
-//                matches4[i].setTeam1(match.getTeam1());
-//
-//            } else {
-//                matches4[i].setTeam2(match.getTeam1());
-//            }
-//            i++;
-//        }
-//    }
+    public Team[] resultOfMatch2() {
+        Team[] tempWinners = new Team[2];
+        for (int i = 0; i < matches2.length; i++) {
+            System.out.println("\n" + matches2[i].getTeam1().getTeamName() + " vs. " + matches2[i].getTeam2().getTeamName() + "\n");
+            int s1 = io.getUserInputInteger("Enter " + matches2[i].getTeam1().getTeamName() + " goals: ");
+            int s2 = io.getUserInputInteger("Enter " + matches2[i].getTeam2().getTeamName() + " goals: ");
+            matches2[i].setScore1(s1);
+            matches2[i].setScore2(s2);
+            System.out.println(matches2[i].getScore1() + " - " + matches2[i].getScore2());
+            if (s1 > s2) {
+                tempWinners[i] = matches2[i].getTeam1();
+            } else {
+                tempWinners[i] = matches2[i].getTeam2();
+            }
+        }
+        return tempWinners;
+    }
+
+    public Team resultOfFinal() {
+        Team tempWinners = null;
+        System.out.println("\n" + finalMatch.getTeam1().getTeamName() + " vs. " + finalMatch.getTeam2().getTeamName() + "\n");
+        int s1 = io.getUserInputInteger("Enter " + finalMatch.getTeam1().getTeamName() + " goals: ");
+        int s2 = io.getUserInputInteger("Enter " + finalMatch.getTeam2().getTeamName() + " goals: ");
+        finalMatch.setScore1(s1);
+        finalMatch.setScore2(s2);
+        System.out.println(finalMatch.getScore1() + " - " + finalMatch.getScore2());
+        if (s1 > s2) {
+            tempWinners = finalMatch.getTeam1();
+        } else {
+            tempWinners = finalMatch.getTeam2();
+        }
+
+        return tempWinners;
+    }
 
 
     public boolean isTournamentFull() {

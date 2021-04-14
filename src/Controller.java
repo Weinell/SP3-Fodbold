@@ -21,24 +21,22 @@ public class Controller {
     }
 
 
-    // The menu system is divided into different Events: Tournament, Teams, Players. Each event has sub events aswell.
+    // The menu system is divided into different Events: Tournament, Teams, Players. Each event has sub events as well.
     public void welcomeMessage() {
         System.out.println("\n======================================");
         String activeName = activeTournament ? tournament.getTournamentName() : "No active tournament";
         String activeTeams = activeTournament ? tournament.teamsInTournament() : "";
         System.out.println("\nNext event: " + activeName + "\n" + activeTeams);
-        System.out.println("\nCreate a new  ");
-
+        String tipForUser = activeTournament ? "Tip: Add existent teams (Press 1) or create new ones (Press 2)" : "Tip: Create new Tournament (Press 1)";
+        System.out.println("\n" + tipForUser);
 
         System.out.println("\nWhat do you wish to do? ");
-        String input = "";
-        input = io.getUserInput("\n" +
+        String input = io.getUserInput("\n" +
                 "1) Tournaments " + "\n" +
                 "2) Teams " + "\n" +
-                "3) Players " + "\n" +
-                "4) Quit " + "\n" +
+                "3) Quit " + "\n" +
 
-                "\nChoice action: ");
+                "\nChoose action: ");
         System.out.println("\n======================================\n");
         getMainEvent(input);
     }
@@ -47,31 +45,42 @@ public class Controller {
         switch (input) {
             case "1" -> eventTournaments();
             case "2" -> eventTeams();
-            case "3" -> System.out.println("Not implemented yet");
-            case "4" -> {
-                System.out.println("QUIT!");
-                ;
-            }
+            case "3" -> System.exit(0);
+
         }
     }
 
-    // TODO Tournament events. What bout a cancel tournament feature?
     public void eventTournaments() {
         goBack = false;
         while (!goBack) {
             System.out.println("\n======================================");
+
+            String tipForUser;
+            if (!activeTournament) {
+                tipForUser = "Tip: Create new Tournament (Press 1)";
+            } else if (!tournament.isTournamentFull()) {
+                tipForUser = "Tip: Add existing teams (Press 2) or go back and create new teams (Press 7)";
+            } else if (tournament.isTournamentFull() && !tournament.isTournamentStarted()) {
+                tipForUser = "Tip: Start tournament (Press 4)";
+            } else if (tournament.isTournamentStarted()) {
+                tipForUser = "Tip: Input the results of the matches (Press 6)";
+            } else {
+                tipForUser = "The tournament is over. Thank you to all participants";
+            }
+
+            System.out.println("\n" + tipForUser);
+
             System.out.println("\nWhat do you wish to do? ");
-            String input = "";
-            input = io.getUserInput("\n" +
+            String input = io.getUserInput("\n" +
                     "1) Create new Tournament " + "\n" +
                     "2) Add teams " + "\n" +
                     "3) Overview of added teams " + "\n" +
                     "4) Start Tournament " + "\n" +
                     "5) Print fixtures " + "\n" +
                     "6) Results " + "\n" +
-                    "7) back " + "\n" +
+                    "7) Back " + "\n" +
 
-                    "\nChoice action: ");
+                    "\nChoose action: ");
             System.out.println("\n======================================\n");
             getTournamentEvent(input);
         }
@@ -98,10 +107,8 @@ public class Controller {
     public void eventNewTournament() {
         if (!activeTournament) {
             System.out.println("\nThere is no active tournament");
-            String input = "";
-            input = io.getUserInput("\nStart new Tournament? Y/N ").toLowerCase();
+            String input = io.getUserInput("\nStart new Tournament? Y/N ").toLowerCase();
             if (input.equals("y")) {
-                input = "";
                 input = io.getUserInput("\nWhats the name of the tournament: ");
                 tournament = new Tournament(16, input);
                 activeTournament = true;
@@ -122,8 +129,7 @@ public class Controller {
 
             goBack = false;
             while (!goBack && !tournament.isTournamentFull()) {
-                int input = 0;
-                input = io.getUserInputInteger("\nInput Team ID to add to tournament: ");
+                int input = io.getUserInputInteger("\nInput Team ID to add to tournament: ");
                 if (input == 0) {
                     goBack = true;
                     eventTournaments();
@@ -159,9 +165,6 @@ public class Controller {
                 tournament.randomizerOrderOfArray();    // Created a method to randomize the order of the teams, so its unpredictable who will go up against each other
                 tournament.setTournamentStarted(true); // preventing app to start the same tournament twice.
 
-//                for (Team team : tournament.getTeamsInTournament()) {
-//                    System.out.println(team.getTeamName());
-//                }
                 tournament.setMatches8(tournament.createRound(tournament.getTeamsInTournament()));
                 eventPrintFixtures();
 
@@ -172,48 +175,79 @@ public class Controller {
     }
 
     public void eventPrintFixtures() {
-        System.out.println("Games in 1st Round:\n");
-        for (Match match : tournament.getMatches8()) {
-            System.out.println(match);
-        }
+        if (tournament != null) {
+            if (tournament.tournamentStarted) {
+                System.out.println("Games in 1st Round:\n");
+                for (Match match : tournament.getMatches8()) {
+                    System.out.println(match);
+                }
+            } else System.out.println("\nStart tournament first.");
+        } else System.out.println("\nNo Active tournament, please Create a new first.");
     }
 
     private void eventResults() {
-        while (!tournament.tournamentFinished) {
-            // first round
-            Team[] teamsQuaterFinal = tournament.resultOfMatch8();
-            tournament.matches4 = tournament.createRound(teamsQuaterFinal);
-            // Quater Finals
-            System.out.println("\nQuaterFinals");
-            System.out.println("============");
-            for (Match match : tournament.getMatches4()) {
-                System.out.println(match);
-            }
-            Team[] teamsSemiFinal = tournament.resultOfMatch4();
-        }
+        if (tournament != null) {
+            if (tournament.tournamentStarted) {
+                while (!tournament.tournamentFinished) {
+                    // first round
+                    Team[] teamsQuarterFinal = tournament.resultOfMatch8();
+                    tournament.matches4 = tournament.createRound(teamsQuarterFinal);
+                    // Quarter Finals
+                    System.out.println("\nQuarter Finals");
+                    System.out.println("============");
+                    for (Match match : tournament.getMatches4()) {
+                        System.out.println(match);
+                    }
+                    Team[] teamsSemiFinal = tournament.resultOfMatch4();
+                    tournament.matches2 = tournament.createRound(teamsSemiFinal);
+                    // Semi Finals
+                    System.out.println("\nSemiFinals");
+                    System.out.println("============");
+                    for (Match match : tournament.getMatches2()) {
+                        System.out.println(match);
+                    }
+                    Team[] teamsFinal = tournament.resultOfMatch2();
+                    tournament.finalMatch = tournament.createFinalRound(teamsFinal);
+                    // Final
+                    System.out.println("\nFinal");
+                    System.out.println("============");
+                    System.out.println(tournament.getFinalMatch());
+
+                    Team winner = tournament.resultOfFinal();
+                    System.out.println("\n" + winner.getTeamName() + " is the winner of the Tournament!!");
+                    tournament.setTournamentFinished(true);
+                }
+            } else System.out.println("\nStart tournament first.");
+        } else System.out.println("\nNo Active tournament, please Create a new first.");
+
     }
 
-    // TODO Team event
     public void eventTeams() {
         goBack = false;
         while (!goBack) {
             System.out.println("\n======================================");
+
+            String tipForUser;
+            if (teams.size() == 0) {
+                tipForUser = "Tip: We don't have any teams in our database. Remember you minimum need 16 teams to start a tournament.";
+            } else {
+                tipForUser = "Fact: We already have " + teams.size() + " teams in our database.";
+            }
+            System.out.println("\n" + tipForUser);
+
             System.out.println("\nWhat do you wish to do? ");
-            String input = "";
-            input = io.getUserInput("\n" +
+            String input = io.getUserInput("\n" +
                     "1) Create new team " + "\n" +
-                    "2) Print all teams " + "\n" +
+                    "2) Print all existing teams from the database " + "\n" +
                     "3) Back " + "\n" +
 
-                    "\nChoice action: ");
+                    "\nChoose action: ");
             System.out.println("\n======================================\n");
             getTeamEvent(input);
         }
-
     }
 
     // All team events
-
     public void getTeamEvent(String input) {
         switch (input) {
             case "1" -> eventCreateTeams();
@@ -238,7 +272,6 @@ public class Controller {
         }
     }
 
-
     public static ArrayList<Team> readTeamData() {
         ArrayList<Team> teamList = new ArrayList<>();
 
@@ -251,13 +284,13 @@ public class Controller {
         }
         if (scanner != null) {
             while (scanner.hasNextLine()) {
-                String[] commaSeperatedValues = scanner.nextLine().split(",");
-                String teamName = commaSeperatedValues[0];
-                int teamID = Integer.parseInt(commaSeperatedValues[1]);
-                String player1 = commaSeperatedValues[2];
-                int player1ID = Integer.parseInt(commaSeperatedValues[3]);
-                String player2 = commaSeperatedValues[4];
-                int player2ID = Integer.parseInt(commaSeperatedValues[5]);
+                String[] commaSeparatedValues = scanner.nextLine().split(",");
+                String teamName = commaSeparatedValues[0];
+                int teamID = Integer.parseInt(commaSeparatedValues[1]);
+                String player1 = commaSeparatedValues[2];
+                int player1ID = Integer.parseInt(commaSeparatedValues[3]);
+                String player2 = commaSeparatedValues[4];
+                int player2ID = Integer.parseInt(commaSeparatedValues[5]);
 
                 // We created a new constructor inside the Team class, which assigns the data to the respectable variables.
                 teamList.add(new Team(teamName, teamID, player1, player1ID, player2, player2ID));

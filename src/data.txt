@@ -14,3 +14,4 @@ Mads' DreamTeam,13,Mads,25,Mikkel,26
 Nikolaj's DreamTeam,14,Nikolaj,27,Nikolai,28
 Omega,15,Ole,29,Oda,30
 Party Poopers,16,Polle,31,Putte,32
+QTards,17,Quinn,33,Qbert,34
