@@ -1,35 +1,31 @@
 public class Player {
 
-
     protected String playerName;
     protected int playerID;
     static int counter = 1;
 
     IO io = new IO();
 
-
     public Player(String member)   {
         this.playerID = counter;
         counter++;
 
         createPlayer(member);
-
     }
+
     public Player(String name, int playerID)   {
         this.playerID = playerID;
         this.playerName = name;
         counter++;
     }
 
-
     public void createPlayer(String member) {
         String name = io.getUserInput(member);
         if(!name.equals("")) {
             this.playerName = name;
         } else {
-            this.playerName = "Unknown name";  // Unknown if nothing is selected. We dont want empty fields in our data files.
+            this.playerName = "Unknown name";  // Unknown if nothing is selected. We don't want empty fields in our data files.
         }
-
     }
 
     public String getName() {
@@ -47,7 +43,6 @@ public class Player {
     public void setID(int ID) {
         this.playerID = ID;
     }
-
 
     @Override
     public String toString() {

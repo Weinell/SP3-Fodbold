@@ -1,12 +1,8 @@
 public class Team {
 
     protected String teamName;
-    protected int teamID;
+    protected int teamID, teamGoals, teamPoints ;
     static int counter = 1;
-
-    protected int teamGoals;
-    protected int teamPoints;
-
 
     protected IO io = new IO();
 
@@ -14,7 +10,7 @@ public class Team {
 
     protected Player player1, player2;
 
-    // Constructer for new team.
+    // Constructor for new team.
     public Team() {
         this.teamID = counter;
         counter++;
@@ -22,6 +18,12 @@ public class Team {
         createTeams();
         this.teamGoals = 0;
         this.teamPoints = 0;
+    }
+
+    // Only used for creating empty teams for the final.
+    public Team(String teamName, int teamID) {
+        this.teamName = teamName;
+        this.teamID = teamID;
     }
 
     // Constructor for loaded data.
@@ -38,8 +40,8 @@ public class Team {
 
     }
 
-    // If the game manager dont assign a team/player name, the app while then assign a default "Team x".
-    // This function also automatically creates two new player objects and assing them as player 1 and 2.
+    // If the game manager don't assign a team/player name, the app will then assign a default "Team x".
+    // This function also automatically creates two new player objects and assign them as player 1 and 2.
     public void createTeams(){
         String name = io.getUserInput("Insert Team name: ");
         if(!name.equals("")) {

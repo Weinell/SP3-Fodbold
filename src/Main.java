@@ -1,6 +1,5 @@
 public class Main {
 
-
     static boolean isRunning = true;
     static Controller c = new Controller();
 
