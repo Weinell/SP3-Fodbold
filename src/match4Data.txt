@@ -1,0 +1,4 @@
+9,Aarhus,1,Party Poopers,16
+10,Illers,9,Freaky Friday,6
+11,Nikolaj's DreamTeam,14,Eske's Dreamteam,5
+12,Omega,15,Craziness,3
