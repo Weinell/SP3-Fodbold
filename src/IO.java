@@ -16,12 +16,24 @@ public class IO {
         return scan.nextInt();
     }
 
-    public void save() {
+    public void teamSave(String filepath) {
         FileWriter fw = null;
         try {
-            fw = new FileWriter("src/data.txt");
+            fw = new FileWriter(filepath);
             for(Team teams : Controller.teams)
                 fw.write(teams.toString()+"\n");
+            fw.close();
+        } catch (Exception e) {
+            System.out.println("Couldn't save");
+        }
+    }
+
+    public void matchSave(String filepath) {
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter(filepath);
+            for(Match match : Controller.match)
+                fw.write(match.matchDataToString()+"\n");
             fw.close();
         } catch (Exception e) {
             System.out.println("Couldn't save");

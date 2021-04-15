@@ -17,10 +17,22 @@ public class Match {
 
     }
 
+    public Match(int matchID, Team team1, Team team2) {
+        this.matchID = matchID;
+        this.team1 = team1;
+        this.team2 = team2;
+
+    }
+
 
     @Override
     public String toString() {
         return "Match " + matchID + " " + team1.getTeamName() + " - " + team2.getTeamName();
+    }
+
+    public String matchDataToString()   {
+        return matchID+","+team1.getTeamName()+","+team1.getTeamID()+","+team2.getTeamName()+","+team2.getTeamID();
+
     }
 
     public Team getTeam1() {
