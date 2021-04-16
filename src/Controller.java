@@ -192,6 +192,11 @@ public class Controller {
             if (tournament.tournamentStarted) {
                 while (!tournament.tournamentFinished) {
                     // first round
+                    for (Match m : tournament.getMatches8()) {
+                        System.out.println(m);
+                        match.add(m);
+                        io.matchSave("src/matchData.txt");
+                    }
                     Team[] teamsQuarterFinal = tournament.resultOfMatch8();
                     tournament.matches4 = tournament.createRound(teamsQuarterFinal);
                     // Quarter Finals
@@ -200,15 +205,17 @@ public class Controller {
                     for (Match m : tournament.getMatches4()) {
                         System.out.println(m);
                         match.add(m);
-                        io.matchSave("src/match4Data.txt");
+                        io.matchSave("src/matchData.txt");
                     }
                     Team[] teamsSemiFinal = tournament.resultOfMatch4();
                     tournament.matches2 = tournament.createRound(teamsSemiFinal);
                     // Semi Finals
                     System.out.println("\nSemiFinals");
                     System.out.println("============");
-                    for (Match match : tournament.getMatches2()) {
-                        System.out.println(match);
+                    for (Match m : tournament.getMatches2()) {
+                        System.out.println(m);
+                        match.add(m);
+                        io.matchSave("src/matchData.txt");
                     }
                     Team[] teamsFinal = tournament.resultOfMatch2();
                     tournament.finalMatch = tournament.createFinalRound(teamsFinal);
@@ -216,8 +223,11 @@ public class Controller {
                     System.out.println("\nFinal");
                     System.out.println("============");
                     System.out.println(tournament.getFinalMatch());
+                    match.add(tournament.getFinalMatch());
+                    io.matchSave("src/matchData.txt");
 
                     Team winner = tournament.resultOfFinal();
+                    io.matchSave("src/matchData.txt");
                     System.out.println("\n" + winner.getTeamName() + " is the winner of the Tournament!!");
                     tournament.setTournamentFinished(true);
                 }
@@ -313,7 +323,7 @@ public class Controller {
     public static ArrayList<Match> readMatchData() {
         ArrayList<Match> matchList = new ArrayList<>();
 
-        File file = new File("src/match4Data.txt");
+        File file = new File("src/matchData.txt");
         Scanner scanner = null;
         try {
             scanner = new Scanner(file);
@@ -328,10 +338,12 @@ public class Controller {
                 int matchTeam1ID = Integer.parseInt(commaSeparatedValues[2]);
                 String matchTeam2Name = commaSeparatedValues[3];
                 int matchTeam2ID = Integer.parseInt(commaSeparatedValues[4]);
+                int matchScore1 = Integer.parseInt(commaSeparatedValues[5]);
+                int matchScore2 = Integer.parseInt(commaSeparatedValues[6]);
 
 
                 // We created a new constructor inside the Team class, which assigns the data to the respectable variables.
-                matchList.add(new Match(matchID,new Team(matchTeam1Name,matchTeam1ID),new Team(matchTeam2Name,matchTeam2ID)));
+                matchList.add(new Match(matchID,new Team(matchTeam1Name,matchTeam1ID),new Team(matchTeam2Name,matchTeam2ID), matchScore1, matchScore2 ));
             }
         }
 
