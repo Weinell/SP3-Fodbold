@@ -1,0 +1,30 @@
+1,Nikolaj's DreamTeam,14,Omega,15,1,0
+2,Greek Mafia,7,Mads' DreamTeam,13,1,0
+3,Freaky Friday,6,Bangers,2,1,0
+4,LoveBoat,12,Eske's Dreamteam,5,1,0
+5,Killers,11,Hallelujahs,8,1,0
+6,DingDong,4,Aarhus,1,1,0
+7,Craziness,3,Jonas' DreamTeam,10,1,0
+8,Illers,9,Party Poopers,16,1,0
+9,Nikolaj's DreamTeam,14,Greek Mafia,7,1,0
+10,Freaky Friday,6,LoveBoat,12,1,0
+11,Killers,11,DingDong,4,1,0
+12,Craziness,3,Illers,9,1,0
+13,Nikolaj's DreamTeam,14,Freaky Friday,6,1,0
+14,Killers,11,Craziness,3,1,0
+15,Nikolaj's DreamTeam,14,Killers,11,1,0
+1,LoveBoat,12,Greek Mafia,7,10,5
+2,Nikolaj's DreamTeam,14,Illers,9,9,10
+3,Freaky Friday,6,Killers,11,6,10
+4,QTards,17,Mads' DreamTeam,13,10,7
+5,Aarhus,1,Hallelujahs,8,10,6
+6,Craziness,3,DingDong,4,8,10
+7,Eske's Dreamteam,5,Jonas' DreamTeam,10,5,10
+8,Bangers,2,Omega,15,4,10
+9,LoveBoat,12,Illers,9,10,3
+10,Killers,11,QTards,17,10,4
+11,Aarhus,1,DingDong,4,2,10
+12,Jonas' DreamTeam,10,Omega,15,4,10
+13,LoveBoat,12,Killers,11,3,10
+14,DingDong,4,Omega,15,10,4
+15,Killers,11,DingDong,4,10,4
