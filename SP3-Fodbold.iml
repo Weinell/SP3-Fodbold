@@ -40,10 +40,10 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../Datamatiker/mySQL projekter/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49.jar!/" />
+          <root url="jar://$MODULE_DIR$/JDBC/mysql-connector-java-5.1.49.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

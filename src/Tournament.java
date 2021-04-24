@@ -16,7 +16,7 @@ public class Tournament {
     protected Match[] matches8, matches4, matches2;  // Round 1, Quarter Final, Semi Final
     protected Match finalMatch;
 
-    IO io = new IO();
+    protected FileReader fr = new FileReader();
 
     public Tournament(int numbTeams, String tournamentName) {
         this.tournamentName = tournamentName;
@@ -103,8 +103,8 @@ public class Tournament {
         Team[] tempWinners = new Team[8];
         for (int i = 0; i < matches8.length; i++) {
             System.out.println("\n" + matches8[i].getTeam1().getTeamName() + " vs. " + matches8[i].getTeam2().getTeamName() + "\n");
-            int s1 = io.getUserInputInteger("Enter " + matches8[i].getTeam1().getTeamName() + " goals: ");
-            int s2 = io.getUserInputInteger("Enter " + matches8[i].getTeam2().getTeamName() + " goals: ");
+            int s1 = fr.getUserInputInteger("Enter " + matches8[i].getTeam1().getTeamName() + " goals: ");
+            int s2 = fr.getUserInputInteger("Enter " + matches8[i].getTeam2().getTeamName() + " goals: ");
             matches8[i].setScore1(s1);
             matches8[i].setScore2(s2);
             System.out.println(matches8[i].getScore1() + " - " + matches8[i].getScore2());
@@ -121,8 +121,8 @@ public class Tournament {
         Team[] tempWinners = new Team[4];
         for (int i = 0; i < matches4.length; i++) {
             System.out.println("\n" + matches4[i].getTeam1().getTeamName() + " vs. " + matches4[i].getTeam2().getTeamName() + "\n");
-            int s1 = io.getUserInputInteger("Enter " + matches4[i].getTeam1().getTeamName() + " goals: ");
-            int s2 = io.getUserInputInteger("Enter " + matches4[i].getTeam2().getTeamName() + " goals: ");
+            int s1 = fr.getUserInputInteger("Enter " + matches4[i].getTeam1().getTeamName() + " goals: ");
+            int s2 = fr.getUserInputInteger("Enter " + matches4[i].getTeam2().getTeamName() + " goals: ");
             matches4[i].setScore1(s1);
             matches4[i].setScore2(s2);
             System.out.println(matches4[i].getScore1() + " - " + matches4[i].getScore2());
@@ -139,8 +139,8 @@ public class Tournament {
         Team[] tempWinners = new Team[2];
         for (int i = 0; i < matches2.length; i++) {
             System.out.println("\n" + matches2[i].getTeam1().getTeamName() + " vs. " + matches2[i].getTeam2().getTeamName() + "\n");
-            int s1 = io.getUserInputInteger("Enter " + matches2[i].getTeam1().getTeamName() + " goals: ");
-            int s2 = io.getUserInputInteger("Enter " + matches2[i].getTeam2().getTeamName() + " goals: ");
+            int s1 = fr.getUserInputInteger("Enter " + matches2[i].getTeam1().getTeamName() + " goals: ");
+            int s2 = fr.getUserInputInteger("Enter " + matches2[i].getTeam2().getTeamName() + " goals: ");
             matches2[i].setScore1(s1);
             matches2[i].setScore2(s2);
             System.out.println(matches2[i].getScore1() + " - " + matches2[i].getScore2());
@@ -156,8 +156,8 @@ public class Tournament {
     public Team resultOfFinal() {
         Team tempWinners = null;
         System.out.println("\n" + finalMatch.getTeam1().getTeamName() + " vs. " + finalMatch.getTeam2().getTeamName() + "\n");
-        int s1 = io.getUserInputInteger("Enter " + finalMatch.getTeam1().getTeamName() + " goals: ");
-        int s2 = io.getUserInputInteger("Enter " + finalMatch.getTeam2().getTeamName() + " goals: ");
+        int s1 = fr.getUserInputInteger("Enter " + finalMatch.getTeam1().getTeamName() + " goals: ");
+        int s2 = fr.getUserInputInteger("Enter " + finalMatch.getTeam2().getTeamName() + " goals: ");
         finalMatch.setScore1(s1);
         finalMatch.setScore2(s2);
         System.out.println(finalMatch.getScore1() + " - " + finalMatch.getScore2());
