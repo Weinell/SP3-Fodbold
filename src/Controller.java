@@ -10,6 +10,7 @@ public class Controller {
     protected IO io = new IO();
 
     protected static ArrayList<Team> teams = new ArrayList<>(); // Database of all teams. Not necessarily a part of any tournaments yet.
+    protected static ArrayList<Match> match = new ArrayList<>();
 
     boolean goBack = false;  // Used inside the menus.
 
@@ -17,6 +18,7 @@ public class Controller {
     public void mainApplication() {
         // Makes sure the application loads the database of previously added teams.
         teams = readTeamData();
+        match = readMatchData();
         welcomeMessage();
     }
 
@@ -190,21 +192,30 @@ public class Controller {
             if (tournament.tournamentStarted) {
                 while (!tournament.tournamentFinished) {
                     // first round
+                    for (Match m : tournament.getMatches8()) {
+                        System.out.println(m);
+                        match.add(m);
+                        io.matchSave("src/matchData.txt");
+                    }
                     Team[] teamsQuarterFinal = tournament.resultOfMatch8();
                     tournament.matches4 = tournament.createRound(teamsQuarterFinal);
                     // Quarter Finals
                     System.out.println("\nQuarter Finals");
                     System.out.println("============");
-                    for (Match match : tournament.getMatches4()) {
-                        System.out.println(match);
+                    for (Match m : tournament.getMatches4()) {
+                        System.out.println(m);
+                        match.add(m);
+                        io.matchSave("src/matchData.txt");
                     }
                     Team[] teamsSemiFinal = tournament.resultOfMatch4();
                     tournament.matches2 = tournament.createRound(teamsSemiFinal);
                     // Semi Finals
                     System.out.println("\nSemiFinals");
                     System.out.println("============");
-                    for (Match match : tournament.getMatches2()) {
-                        System.out.println(match);
+                    for (Match m : tournament.getMatches2()) {
+                        System.out.println(m);
+                        match.add(m);
+                        io.matchSave("src/matchData.txt");
                     }
                     Team[] teamsFinal = tournament.resultOfMatch2();
                     tournament.finalMatch = tournament.createFinalRound(teamsFinal);
@@ -212,13 +223,22 @@ public class Controller {
                     System.out.println("\nFinal");
                     System.out.println("============");
                     System.out.println(tournament.getFinalMatch());
+                    match.add(tournament.getFinalMatch());
+                    io.matchSave("src/matchData.txt");
 
                     Team winner = tournament.resultOfFinal();
+                    io.matchSave("src/matchData.txt");
                     System.out.println("\n" + winner.getTeamName() + " is the winner of the Tournament!!");
                     tournament.setTournamentFinished(true);
                 }
             } else System.out.println("\nStart tournament first.");
         } else System.out.println("\nNo Active tournament, please Create a new first.");
+
+    }
+
+    public void currentRound()  {
+
+
 
     }
 
@@ -261,7 +281,7 @@ public class Controller {
 
     public void eventCreateTeams() {
         teams.add(new Team()); // Creates a new team which then ask for details about team and player names
-        io.save(); // Saves to data.txt everytime a new team is created.
+        io.teamSave("src/teamData.txt"); // Saves to teamData.txt everytime a new team is created.
 
     }
 
@@ -275,7 +295,7 @@ public class Controller {
     public static ArrayList<Team> readTeamData() {
         ArrayList<Team> teamList = new ArrayList<>();
 
-        File file = new File("src/data.txt");
+        File file = new File("src/teamData.txt");
         Scanner scanner = null;
         try {
             scanner = new Scanner(file);
@@ -300,5 +320,33 @@ public class Controller {
         return teamList;
     }
 
-    // TODO: Make another read data method with tournament data.
+    public static ArrayList<Match> readMatchData() {
+        ArrayList<Match> matchList = new ArrayList<>();
+
+        File file = new File("src/matchData.txt");
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (scanner != null) {
+            while (scanner.hasNextLine()) {
+                String[] commaSeparatedValues = scanner.nextLine().split(",");
+                int matchID = Integer.parseInt(commaSeparatedValues[0]);
+                String matchTeam1Name = commaSeparatedValues[1];
+                int matchTeam1ID = Integer.parseInt(commaSeparatedValues[2]);
+                String matchTeam2Name = commaSeparatedValues[3];
+                int matchTeam2ID = Integer.parseInt(commaSeparatedValues[4]);
+                int matchScore1 = Integer.parseInt(commaSeparatedValues[5]);
+                int matchScore2 = Integer.parseInt(commaSeparatedValues[6]);
+
+
+                // We created a new constructor inside the Team class, which assigns the data to the respectable variables.
+                matchList.add(new Match(matchID,new Team(matchTeam1Name,matchTeam1ID),new Team(matchTeam2Name,matchTeam2ID), matchScore1, matchScore2 ));
+            }
+        }
+
+        return matchList;
+    }
 }
