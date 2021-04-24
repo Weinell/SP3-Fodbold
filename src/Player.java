@@ -4,7 +4,7 @@ public class Player {
     protected int playerID;
     static int counter = 1;
 
-    IO io = new IO();
+    protected FileReader fr = new FileReader();
 
     public Player(String member)   {
         this.playerID = counter;
@@ -20,7 +20,7 @@ public class Player {
     }
 
     public void createPlayer(String member) {
-        String name = io.getUserInput(member);
+        String name = fr.getUserInput(member);
         if(!name.equals("")) {
             this.playerName = name;
         } else {

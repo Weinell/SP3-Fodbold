@@ -5,9 +5,11 @@ import java.util.Scanner;
 
 public class Controller {
 
+    DBConnector dbc = new DBConnector();
+
     protected Tournament tournament;
     protected boolean activeTournament = false;  // When true, current tournament name and numbers of teams are shown in the top of the welcome message.
-    protected IO io = new IO();
+    protected FileReader fr = new FileReader();
 
     protected static ArrayList<Team> teams = new ArrayList<>(); // Database of all teams. Not necessarily a part of any tournaments yet.
     protected static ArrayList<Match> match = new ArrayList<>();
@@ -19,8 +21,23 @@ public class Controller {
         // Makes sure the application loads the database of previously added teams.
         teams = readTeamData();
         match = readMatchData();
+        dbc.teamSave("src/teamData.txt");
         welcomeMessage();
+
+
     }
+
+    public static Team getTeamByID(int id) {
+        Team tempTeam = null;
+        for (Team t : teams) {
+            if (t.getTeamID() == id) {
+                tempTeam = t;
+            }
+        }
+        return tempTeam;
+    }
+
+
 
 
     // The menu system is divided into different Events: Tournament, Teams, Players. Each event has sub events as well.
@@ -33,7 +50,7 @@ public class Controller {
         System.out.println("\n" + tipForUser);
 
         System.out.println("\nWhat do you wish to do? ");
-        String input = io.getUserInput("\n" +
+        String input = fr.getUserInput("\n" +
                 "1) Tournaments " + "\n" +
                 "2) Teams " + "\n" +
                 "3) Quit " + "\n" +
@@ -73,7 +90,7 @@ public class Controller {
             System.out.println("\n" + tipForUser);
 
             System.out.println("\nWhat do you wish to do? ");
-            String input = io.getUserInput("\n" +
+            String input = fr.getUserInput("\n" +
                     "1) Create new Tournament " + "\n" +
                     "2) Add teams " + "\n" +
                     "3) Overview of added teams " + "\n" +
@@ -109,9 +126,9 @@ public class Controller {
     public void eventNewTournament() {
         if (!activeTournament) {
             System.out.println("\nThere is no active tournament");
-            String input = io.getUserInput("\nStart new Tournament? Y/N ").toLowerCase();
+            String input = fr.getUserInput("\nStart new Tournament? Y/N ").toLowerCase();
             if (input.equals("y")) {
-                input = io.getUserInput("\nWhats the name of the tournament: ");
+                input = fr.getUserInput("\nWhats the name of the tournament: ");
                 tournament = new Tournament(16, input);
                 activeTournament = true;
             } else if (input.equals("n")) {
@@ -131,7 +148,7 @@ public class Controller {
 
             goBack = false;
             while (!goBack && !tournament.isTournamentFull()) {
-                int input = io.getUserInputInteger("\nInput Team ID to add to tournament: ");
+                int input = fr.getUserInputInteger("\nInput Team ID to add to tournament: ");
                 if (input == 0) {
                     goBack = true;
                     eventTournaments();
@@ -195,7 +212,7 @@ public class Controller {
                     for (Match m : tournament.getMatches8()) {
                         System.out.println(m);
                         match.add(m);
-                        io.matchSave("src/matchData.txt");
+                        fr.matchSave("src/matchData.txt");
                     }
                     Team[] teamsQuarterFinal = tournament.resultOfMatch8();
                     tournament.matches4 = tournament.createRound(teamsQuarterFinal);
@@ -205,7 +222,7 @@ public class Controller {
                     for (Match m : tournament.getMatches4()) {
                         System.out.println(m);
                         match.add(m);
-                        io.matchSave("src/matchData.txt");
+                        fr.matchSave("src/matchData.txt");
                     }
                     Team[] teamsSemiFinal = tournament.resultOfMatch4();
                     tournament.matches2 = tournament.createRound(teamsSemiFinal);
@@ -215,7 +232,7 @@ public class Controller {
                     for (Match m : tournament.getMatches2()) {
                         System.out.println(m);
                         match.add(m);
-                        io.matchSave("src/matchData.txt");
+                        fr.matchSave("src/matchData.txt");
                     }
                     Team[] teamsFinal = tournament.resultOfMatch2();
                     tournament.finalMatch = tournament.createFinalRound(teamsFinal);
@@ -224,10 +241,10 @@ public class Controller {
                     System.out.println("============");
                     System.out.println(tournament.getFinalMatch());
                     match.add(tournament.getFinalMatch());
-                    io.matchSave("src/matchData.txt");
+                    fr.matchSave("src/matchData.txt");
 
                     Team winner = tournament.resultOfFinal();
-                    io.matchSave("src/matchData.txt");
+                    fr.matchSave("src/matchData.txt");
                     System.out.println("\n" + winner.getTeamName() + " is the winner of the Tournament!!");
                     tournament.setTournamentFinished(true);
                 }
@@ -256,7 +273,7 @@ public class Controller {
             System.out.println("\n" + tipForUser);
 
             System.out.println("\nWhat do you wish to do? ");
-            String input = io.getUserInput("\n" +
+            String input = fr.getUserInput("\n" +
                     "1) Create new team " + "\n" +
                     "2) Print all existing teams from the database " + "\n" +
                     "3) Back " + "\n" +
@@ -281,7 +298,7 @@ public class Controller {
 
     public void eventCreateTeams() {
         teams.add(new Team()); // Creates a new team which then ask for details about team and player names
-        io.teamSave("src/teamData.txt"); // Saves to teamData.txt everytime a new team is created.
+        fr.teamSave("src/teamData.txt"); // Saves to teamData.txt everytime a new team is created.
 
     }
 
