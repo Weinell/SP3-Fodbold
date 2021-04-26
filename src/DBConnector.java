@@ -5,11 +5,11 @@ import java.util.ArrayList;
 public class DBConnector implements IO {
     // JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost/SP4_gruppe_H";
+    static final String DB_URL = "jdbc:mysql://127.0.0.1/SP4_gruppe_H";
 
     //  Database credentials
     static final String USER = "root";
-    static final String PASS = "MadsDat1";
+    static final String PASS = "niko3460";
 
 
     @Override
@@ -133,7 +133,65 @@ public class DBConnector implements IO {
         return TeamList;
     }
 
+    @Override
+    public void playerSave(String filepath) {
 
+        Connection conn = null;
+        // Statement stmt = null;
+        // for insert a new candidate
+        ResultSet rs = null;
+
+        //Insert/upsert
+        String sql = "INSERT INTO Teams( id, team_id, playerName) "
+                + "VALUES(?,?,?) ON DUPLICATE KEY UPDATE id=?, team_id=?, playerName=?";
+
+        try{
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+            PreparedStatement pstmt = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+
+            //STEP 2: Execute a query
+            System.out.println("Saving Player Data...");
+            //stmt = conn.createStatement();
+
+
+            for(int i = 1; i <= Controller.players.size();i++){
+
+                pstmt.setInt(1,Controller.getPlayerByID(i).getPlayerID());
+                pstmt.setInt(2,0);
+                pstmt.setString(3,Controller.getPlayerByID(i).getPlayerName());
+
+                // Update
+
+                pstmt.setInt(4,Controller.getPlayerByID(i).getPlayerID());
+                pstmt.setInt(5,0);
+                pstmt.setString(6,Controller.getPlayerByID(i).getPlayerName());
+
+                pstmt.addBatch();
+
+            }
+            pstmt.executeBatch();
+
+        }catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                if(rs != null)  rs.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+
+    /*
+    @Override
+    public ArrayList<Player> readPlayerData(String path)    {
+
+
+
+
+
+    }*/
 
 
 

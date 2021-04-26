@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -12,8 +13,10 @@ public class Controller {
     public static IO io;
     protected FileReader fr = new FileReader();
 
+    public static ArrayList<Player> players = new ArrayList<>();
     protected static ArrayList<Team> teams = new ArrayList<>(); // Database of all teams. Not necessarily a part of any tournaments yet.
-    protected static ArrayList<Match> match = new ArrayList<>();
+    protected static ArrayList<Match> matches = new ArrayList<>();
+
 
     boolean goBack = false;  // Used inside the menus.
 
@@ -30,9 +33,9 @@ public class Controller {
     public void mainApplication() {
         // Makes sure the application loads the database of previously added teams.
 //        teams = readTeamData();
-        loadData();
+        //loadData();
 //        teams = dbc.readTeamData(path);
-        match = readMatchData();
+        matches = readMatchData();
         dbc.teamSave("src/teamData.txt");
         welcomeMessage();
 
@@ -69,6 +72,17 @@ public class Controller {
     }
 
 
+    public static Player getPlayerByID(int id) {
+        for (Player p : players) {
+            if (p.getPlayerID() == id) {
+                return p;
+            }
+        }
+        System.out.println("There was no player found");
+        return null;
+    }
+
+
 
 
     // The menu system is divided into different Events: Tournament, Teams, Players. Each event has sub events as well.
@@ -97,6 +111,7 @@ public class Controller {
             case "2" -> eventTeams();
             case "3" -> {
                 dbc.teamSave("src/teamData.txt");
+                dbc.playerSave(null);
                 System.exit(0);
             }
         }
@@ -244,7 +259,7 @@ public class Controller {
                     // first round
                     for (Match m : tournament.getMatches8()) {
                         System.out.println(m);
-                        match.add(m);
+                        matches.add(m);
                         fr.matchSave("src/matchData.txt");
                     }
                     Team[] teamsQuarterFinal = tournament.resultOfMatch8();
@@ -254,7 +269,7 @@ public class Controller {
                     System.out.println("============");
                     for (Match m : tournament.getMatches4()) {
                         System.out.println(m);
-                        match.add(m);
+                        matches.add(m);
                         fr.matchSave("src/matchData.txt");
                     }
                     Team[] teamsSemiFinal = tournament.resultOfMatch4();
@@ -264,7 +279,7 @@ public class Controller {
                     System.out.println("============");
                     for (Match m : tournament.getMatches2()) {
                         System.out.println(m);
-                        match.add(m);
+                        matches.add(m);
                         fr.matchSave("src/matchData.txt");
                     }
                     Team[] teamsFinal = tournament.resultOfMatch2();
@@ -273,7 +288,7 @@ public class Controller {
                     System.out.println("\nFinal");
                     System.out.println("============");
                     System.out.println(tournament.getFinalMatch());
-                    match.add(tournament.getFinalMatch());
+                    matches.add(tournament.getFinalMatch());
                     fr.matchSave("src/matchData.txt");
 
                     Team winner = tournament.resultOfFinal();
@@ -338,7 +353,7 @@ public class Controller {
     // TODO: So far its only to print a list of all the teams. Maybe we should add an search and edit function
     public void eventManageTeams() {
         for (Team t : teams) {
-            System.out.println(t.getTeamID() + ") " + t.getTeamName() + " (" + t.getPlayer1().getName() + " and " + t.getPlayer2().getName() + ")");
+            System.out.println(t.getTeamID() + ") " + t.getTeamName() + " (" + t.getPlayer1().getPlayerName() + " and " + t.getPlayer2().getPlayerName() + ")");
         }
     }
 

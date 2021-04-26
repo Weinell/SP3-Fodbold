@@ -11,6 +11,7 @@ public class Team {
 
     protected Player player1, player2;
 
+
     // Constructor for new team.
     public Team() {
         this.teamID = counter;
@@ -65,6 +66,12 @@ public class Team {
         System.out.println("\nTeam: " + teamName);
         this.player1 = new Player("Member 1: ");
         this.player2 = new Player("Member 2: ");
+        Controller.players.add(this.player1);
+        Controller.players.add(this.player2);
+        // For testing whether the players are added
+        for (Player p: Controller.players) {
+            System.out.println(p);
+        }
     }
 
     public String getTeamName() {

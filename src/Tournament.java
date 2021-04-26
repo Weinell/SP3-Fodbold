@@ -69,8 +69,8 @@ public class Tournament {
                 System.out.println(
                         teamsInTournament[i].getTeamID() + ") " +
                                 teamsInTournament[i].getTeamName() + " (" +
-                                teamsInTournament[i].getPlayer1().getName() + " and " +
-                                teamsInTournament[i].getPlayer2().getName() + ")");
+                                teamsInTournament[i].getPlayer1().getPlayerName() + " and " +
+                                teamsInTournament[i].getPlayer2().getPlayerName() + ")");
             }
         }
     }
