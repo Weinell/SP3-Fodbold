@@ -28,19 +28,19 @@ public class Player {
         }
     }
 
-    public String getName() {
+    public String getPlayerName() {
         return playerName;
     }
 
-    public void setName(String name) {
+    public void setPlayerName(String name) {
         this.playerName = name;
     }
 
-    public int getID() {
+    public int getPlayerID() {
         return playerID;
     }
 
-    public void setID(int ID) {
+    public void setPlayerID(int ID) {
         this.playerID = ID;
     }
 

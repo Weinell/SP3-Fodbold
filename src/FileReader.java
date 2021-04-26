@@ -38,7 +38,7 @@ public class FileReader implements IO {
             FileWriter fw = null;
             try {
                 fw = new FileWriter(filepath);
-                for(Match match : Controller.match)
+                for(Match match : Controller.matches)
                     fw.write(match.matchDataToString()+"\n");
                 fw.close();
             } catch (Exception e) {
@@ -73,6 +73,11 @@ public class FileReader implements IO {
         }
 
         return teamList;
+    }
+
+    @Override
+    public void playerSave(String filepath) {
+
     }
 }
 
