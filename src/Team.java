@@ -5,6 +5,7 @@ public class Team {
     static int counter = 1;
 
     protected FileReader fr = new FileReader();
+    protected DBConnector dbc = new DBConnector();
 
     protected boolean addedToActiveTournament = false;  // Teams can only be added once because of this bool.
 
@@ -38,16 +39,17 @@ public class Team {
         this.teamPoints = 0;
     }
 
-    public Team(String teamName, int teamID, int teamGoals, int teamPoints) {
+
+    public Team(int teamID, String teamName, int teamGoals, int teamPoints){
         this.teamID = teamID;
         this.teamName = teamName;
         this.teamGoals = teamGoals;
         this.teamPoints = teamPoints;
+        this.player1 = new Player("player1", 1);
+        this.player2 = new Player("player2", 2);
+
         counter++;
-    }
-
-    public Team(int id, String teamName, int teamGoals, int teamPoints){
-
+        System.out.println("new team created");
     }
 
     // If the game manager don't assign a team/player name, the app will then assign a default "Team x".

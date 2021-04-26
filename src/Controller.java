@@ -31,6 +31,7 @@ public class Controller {
         // Makes sure the application loads the database of previously added teams.
 //        teams = readTeamData();
         loadData();
+//        teams = dbc.readTeamData(path);
         match = readMatchData();
         dbc.teamSave("src/teamData.txt");
         welcomeMessage();
@@ -43,13 +44,6 @@ public class Controller {
         io = getIO();// new FileReader();// todo: use a getIO() method to instiate the reader/connector dynamically
 
         teams = io.readTeamData(path);
-
-
-
-        //  String[] cards_data = io.readCardData(null);
-        //  board.setCards(cards_data);
-        // Main.players = io.readGameData();
-
     }
 
     public static IO getIO() {
@@ -62,6 +56,7 @@ public class Controller {
         }
         return null;
     }
+
 
     public static Team getTeamByID(int id) {
         for (Team t : teams) {
@@ -100,8 +95,10 @@ public class Controller {
         switch (input) {
             case "1" -> eventTournaments();
             case "2" -> eventTeams();
-            case "3" -> System.exit(0);
-
+            case "3" -> {
+                dbc.teamSave("src/teamData.txt");
+                System.exit(0);
+            }
         }
     }
 
