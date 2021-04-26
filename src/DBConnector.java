@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.ArrayList;
 
 
 public class DBConnector implements IO {
@@ -8,7 +9,7 @@ public class DBConnector implements IO {
 
     //  Database credentials
     static final String USER = "root";
-    static final String PASS = "********";
+    static final String PASS = "bif13jhdkBatman13";
 
 
     @Override
@@ -28,10 +29,10 @@ public class DBConnector implements IO {
             PreparedStatement pstmt = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 
             //STEP 2: Execute a query
-            System.out.println("Creating statement...");
+            System.out.println("Saving Team Data...");
             //stmt = conn.createStatement();
 
-            for(int i = 1; i < Controller.teams.size();i++){
+            for(int i = 1; i <= Controller.teams.size();i++){
 
                 pstmt.setInt(1,Controller.getTeamByID(i).getTeamID());
                 pstmt.setString(2,Controller.getTeamByID(i).getTeamName());
@@ -62,6 +63,74 @@ public class DBConnector implements IO {
     @Override
     public void matchSave(String filepath) {
 
+    }
+
+    @Override
+    public ArrayList<Team> readTeamData(String path) {
+        ArrayList<Team> TeamList = new ArrayList<>();
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+            //STEP 2: Register JDBC driver
+            // Class.forName("com.mysql.jdbc.Driver");
+
+            //STEP 3: Open a connection
+            System.out.println("Connecting to database...");
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            //STEP 4: Execute a query
+            System.out.println("Loading Team Data...");
+            stmt = conn.createStatement();
+
+
+            String sql = "SELECT * FROM Teams";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            //STEP 5: Extract data from result set
+            while (rs.next()) {
+                //Retrieve by column name
+                int id = rs.getInt("id");
+                String teamName = rs.getString("teamName");
+                int teamGoals = rs.getInt("teamGoals");
+                int teamPoints = rs.getInt("teamPoints");
+
+                //Display values
+                System.out.print("ID: " + id);
+                System.out.print(", Team Name: " + teamName);
+                System.out.print(", Goals: " + teamGoals);
+                System.out.println(", Points: " + teamPoints);
+
+                Team t = new Team(id, teamName, teamGoals, teamPoints);
+                TeamList.add(t);
+
+            }
+            //STEP 6: Clean-up environment
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        } finally {
+            //finally block used to close resources
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException se2) {
+            }// nothing we can do
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }//end finally try
+        }//end try
+
+
+        return TeamList;
     }
 
 }

@@ -36,7 +36,17 @@ public class Team {
 
         this.teamGoals = 0;
         this.teamPoints = 0;
+    }
 
+    public Team(String teamName, int teamID, int teamGoals, int teamPoints) {
+        this.teamID = teamID;
+        this.teamName = teamName;
+        this.teamGoals = teamGoals;
+        this.teamPoints = teamPoints;
+        counter++;
+    }
+
+    public Team(int id, String teamName, int teamGoals, int teamPoints){
 
     }
 
