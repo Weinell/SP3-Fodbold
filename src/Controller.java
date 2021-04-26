@@ -9,6 +9,7 @@ public class Controller {
 
     protected Tournament tournament;
     protected boolean activeTournament = false;  // When true, current tournament name and numbers of teams are shown in the top of the welcome message.
+    public static IO io;
     protected FileReader fr = new FileReader();
 
     protected static ArrayList<Team> teams = new ArrayList<>(); // Database of all teams. Not necessarily a part of any tournaments yet.
@@ -16,10 +17,20 @@ public class Controller {
 
     boolean goBack = false;  // Used inside the menus.
 
+    //ENUM
+    enum Datasource{
+        DATABASE,
+        CSVFILE
+    }
+    private static Datasource src = Datasource.DATABASE;
+    private static String path;
+    //todo: make enum for various data sources
+
     // TODO: maybe just put it into the constructor of the controller class.
     public void mainApplication() {
         // Makes sure the application loads the database of previously added teams.
-        teams = readTeamData();
+//        teams = readTeamData();
+        loadData();
         match = readMatchData();
         dbc.teamSave("src/teamData.txt");
         welcomeMessage();
@@ -27,14 +38,37 @@ public class Controller {
 
     }
 
+
+    public static void loadData(){
+        io = getIO();// new FileReader();// todo: use a getIO() method to instiate the reader/connector dynamically
+
+        teams = io.readTeamData(path);
+
+        //  String[] cards_data = io.readCardData(null);
+        //  board.setCards(cards_data);
+        // Main.players = io.readGameData();
+
+    }
+
+    public static IO getIO() {
+        if(src == Datasource.DATABASE){
+            path = null;
+            return new DBConnector();
+        }else if (src == Datasource.CSVFILE){
+            path = "teamData.txt";
+            return new FileReader();
+        }
+        return null;
+    }
+
     public static Team getTeamByID(int id) {
-        Team tempTeam = null;
         for (Team t : teams) {
             if (t.getTeamID() == id) {
-                tempTeam = t;
+                return t;
             }
         }
-        return tempTeam;
+        System.out.println("There was no team found");
+        return null;
     }
 
 
