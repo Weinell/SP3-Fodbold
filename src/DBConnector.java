@@ -9,7 +9,7 @@ public class DBConnector implements IO {
 
     //  Database credentials
     static final String USER = "root";
-    static final String PASS = "bif13jhdkBatman13";
+    static final String PASS = "******";
 
 
     @Override
