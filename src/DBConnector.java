@@ -8,7 +8,7 @@ public class DBConnector implements IO {
 
     //  Database credentials
     static final String USER = "root";
-    static final String PASS = "MadsDat1";
+    static final String PASS = "********";
 
 
     @Override
@@ -21,7 +21,7 @@ public class DBConnector implements IO {
 
         //Insert/upsert
         String sql = "INSERT INTO Teams( id, teamName, teamGoals, teamPoints) "
-                + "VALUES(?,?,?,?)ON DUPLICATE KEY UPDATE id=?, teamName=?, teamGoals=?, teamPoints=?";
+                + "VALUES(?,?,?,?) ON DUPLICATE KEY UPDATE id=?, teamName=?, teamGoals=?, teamPoints=?";
 
         try{
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -37,8 +37,7 @@ public class DBConnector implements IO {
                 pstmt.setString(2,Controller.getTeamByID(i).getTeamName());
                 pstmt.setInt(3,Controller.getTeamByID(i).getTeamGoals());
                 pstmt.setInt(4,Controller.getTeamByID(i).getTeamPoints());
-
-                //Update
+                // Update
                 pstmt.setInt(5,Controller.getTeamByID(i).getTeamID());
                 pstmt.setString(6,Controller.getTeamByID(i).getTeamName());
                 pstmt.setInt(7,Controller.getTeamByID(i).getTeamGoals());
