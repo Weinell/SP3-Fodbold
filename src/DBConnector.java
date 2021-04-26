@@ -31,7 +31,7 @@ public class DBConnector implements IO {
             //STEP 2: Execute a query
             System.out.println("Saving Team Data...");
             //stmt = conn.createStatement();
-            
+
             for(int i = 1; i <= Controller.teams.size();i++){
 
                 pstmt.setInt(1,Controller.getTeamByID(i).getTeamID());
@@ -132,5 +132,9 @@ public class DBConnector implements IO {
 
         return TeamList;
     }
+
+
+
+
 
 }
