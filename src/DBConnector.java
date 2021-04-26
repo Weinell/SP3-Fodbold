@@ -142,7 +142,7 @@ public class DBConnector implements IO {
         ResultSet rs = null;
 
         //Insert/upsert
-        String sql = "INSERT INTO Teams( id, team_id, playerName) "
+        String sql = "INSERT INTO Players( id, team_id, playerName) "
                 + "VALUES(?,?,?) ON DUPLICATE KEY UPDATE id=?, team_id=?, playerName=?";
 
         try{
