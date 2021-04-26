@@ -44,6 +44,8 @@ public class Controller {
 
         teams = io.readTeamData(path);
 
+
+
         //  String[] cards_data = io.readCardData(null);
         //  board.setCards(cards_data);
         // Main.players = io.readGameData();

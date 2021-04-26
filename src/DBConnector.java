@@ -9,7 +9,7 @@ public class DBConnector implements IO {
 
     //  Database credentials
     static final String USER = "root";
-    static final String PASS = "bif13jhdkBatman13";
+    static final String PASS = "MadsDat1";
 
 
     @Override
@@ -31,7 +31,7 @@ public class DBConnector implements IO {
             //STEP 2: Execute a query
             System.out.println("Saving Team Data...");
             //stmt = conn.createStatement();
-
+            
             for(int i = 1; i <= Controller.teams.size();i++){
 
                 pstmt.setInt(1,Controller.getTeamByID(i).getTeamID());
