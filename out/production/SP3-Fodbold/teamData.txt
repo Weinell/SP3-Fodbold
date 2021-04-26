@@ -1,20 +1,22 @@
-Aarhus,1,Allan,1,Anja,2
-Bangers,2,Bo,3,Buller,4
-Craziness,3,Christian,5,Curtis,6
-DingDong,4,Dan,7,Ditte,8
-Eske's Dreamteam,5,Eske,9,Eigil,10
-Freaky Friday,6,Frederik,11,Fissan,12
-Greek Mafia,7,Gregers,13,Gunther,14
-Hallelujahs,8,Hans,15,Heidi,16
-Illers,9,Ida,17,Ivan,18
-Jonas' DreamTeam,10,Jonas,19,SpillerAlene,20
-Killers,11,Kim,21,Kian,22
-LoveBoat,12,Lau,23,Louie,24
-Mads' DreamTeam,13,Mads,25,Mikkel,26
-Nikolaj's DreamTeam,14,Nikolaj,27,Nikolai,28
-Omega,15,Ole,29,Oda,30
-Party Poopers,16,Polle,31,Putte,32
-QTards,17,Quinn,33,Qbert,34
-POOP,18,1,35,2,36
-poop,19,poop1,37,poop2,38
-Mads Poop,20,Mads,39,Mads2,40
+Aarhus,1,player1,1,player2,2
+Bangers,2,player1,1,player2,2
+Craziness,3,player1,1,player2,2
+DingDong,4,player1,1,player2,2
+Eske's Dreamteam,5,player1,1,player2,2
+Freaky Friday,6,player1,1,player2,2
+Greek Mafia,7,player1,1,player2,2
+Hallelujahs,8,player1,1,player2,2
+Illers,9,player1,1,player2,2
+Jonas' DreamTeam,10,player1,1,player2,2
+Killers,11,player1,1,player2,2
+LoveBoat,12,player1,1,player2,2
+Mads' DreamTeam,13,player1,1,player2,2
+Nikolaj's DreamTeam,14,player1,1,player2,2
+Omega,15,player1,1,player2,2
+Party Poopers,16,player1,1,player2,2
+QTards,17,player1,1,player2,2
+POOP,18,player1,1,player2,2
+poop,19,player1,1,player2,2
+Mads Poop,20,player1,1,player2,2
+Odense,21,player1,1,player2,2
+LAndshold,22,Dan,43,Mark,44
