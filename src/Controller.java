@@ -32,26 +32,18 @@ public class Controller {
     // TODO: maybe just put it into the constructor of the controller class.
     public void mainApplication() {
         // Makes sure the application loads the database of previously added teams.
-//        teams = readTeamData();
         loadData();
         distributePlayers();
-        for (Player p: players) {
-            System.out.println(p);
-        }
-//        teams = dbc.readTeamData(path);
+
         matches = readMatchData();
-        //dbc.teamSave("src/teamData.txt");
         welcomeMessage();
-
-
     }
 
 
     public static void loadData(){
         io = getIO();// new FileReader();// todo: use a getIO() method to instiate the reader/connector dynamically
-
-        teams = io.readTeamData(path);
         players = io.readPlayerData();
+        teams = io.readTeamData(path);
     }
 
     public static IO getIO() {
