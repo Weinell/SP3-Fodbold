@@ -7,4 +7,5 @@ public interface IO {
     public void matchSave(String filepath);//saves after each match
     public ArrayList<Team>  readTeamData(String path);
     public void playerSave(String filepath);
+    public ArrayList<Player> readPlayerData();
 }

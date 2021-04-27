@@ -3,6 +3,7 @@ public class Player {
     protected String playerName;
     protected int playerID;
     static int counter = 1;
+    protected int team_id;
 
     protected FileReader fr = new FileReader();
 
@@ -17,6 +18,15 @@ public class Player {
         this.playerID = playerID;
         this.playerName = name;
         counter++;
+    }
+
+    public Player(int id, int team_id, String playerName)   {
+
+        this.playerID = id;
+        this.team_id = team_id;
+        this.playerName = playerName;
+        counter++;
+
     }
 
     public void createPlayer(String member) {
