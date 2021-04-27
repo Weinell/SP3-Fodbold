@@ -142,8 +142,8 @@ public class DBConnector implements IO {
         ResultSet rs = null;
 
         //Insert/upsert
-        String sql = "INSERT INTO Players( id, team_id, playerName) "
-                + "VALUES(?,?,?) ON DUPLICATE KEY UPDATE id=?, team_id=?, playerName=?";
+        String sql = "INSERT INTO Players( team_id, playerName) "
+                + "VALUES(?,?) ON DUPLICATE KEY UPDATE team_id=?, playerName=?";
 
         try{
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -156,15 +156,13 @@ public class DBConnector implements IO {
 
             for(int i = 1; i <= Controller.players.size();i++){
 
-                pstmt.setInt(1,Controller.getPlayerByID(i).getPlayerID());
-                pstmt.setInt(2,0);
-                pstmt.setString(3,Controller.getPlayerByID(i).getPlayerName());
+                pstmt.setInt(1,Controller.getTeamIDbyPlayer(i));
+                pstmt.setString(2,Controller.getPlayerByID(i).getPlayerName());
 
                 // Update
 
-                pstmt.setInt(4,Controller.getPlayerByID(i).getPlayerID());
-                pstmt.setInt(5,0);
-                pstmt.setString(6,Controller.getPlayerByID(i).getPlayerName());
+                pstmt.setInt(3,Controller.getTeamIDbyPlayer(i));
+                pstmt.setString(4,Controller.getPlayerByID(i).getPlayerName());
 
                 pstmt.addBatch();
 

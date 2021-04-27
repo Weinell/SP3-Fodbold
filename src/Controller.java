@@ -83,6 +83,16 @@ public class Controller {
     }
 
 
+    public static int getTeamIDbyPlayer(int playerID) {
+        for (Team t : teams){
+            if(t.getPlayer1().getPlayerID()==playerID || t.getPlayer2().getPlayerID()==playerID) {
+                return t.getTeamID();
+            }
+        }
+        System.out.println("There was no team found for that player");
+        return 0;
+    }
+
 
 
     // The menu system is divided into different Events: Tournament, Teams, Players. Each event has sub events as well.
