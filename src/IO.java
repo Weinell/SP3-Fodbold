@@ -1,42 +1,11 @@
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class IO {
-
-    public String getUserInput(String msg) {
-        System.out.print(msg);
-        Scanner scan = new Scanner(System.in);
-        return scan.nextLine();
-    }
-
-    // TODO: Couldn't get the getUserInput function to work for Integer. So i made this instead. Maybe find another solution.
-    public int getUserInputInteger(String msg) {
-        System.out.print(msg);
-        Scanner scan = new Scanner(System.in);
-        return scan.nextInt();
-    }
-
-    public void teamSave(String filepath) {
-        FileWriter fw = null;
-        try {
-            fw = new FileWriter(filepath);
-            for(Team teams : Controller.teams)
-                fw.write(teams.toString()+"\n");
-            fw.close();
-        } catch (Exception e) {
-            System.out.println("Couldn't save");
-        }
-    }
-
-    public void matchSave(String filepath) {
-        FileWriter fw = null;
-        try {
-            fw = new FileWriter(filepath);
-            for(Match match : Controller.match)
-                fw.write(match.matchDataToString()+"\n");
-            fw.close();
-        } catch (Exception e) {
-            System.out.println("Couldn't save");
-        }
-    }
+public interface IO {
+    public void teamSave(String filepath);//Saves after new Teams is added
+    public void matchSave(String filepath);//saves after each match
+    public ArrayList<Team>  readTeamData(String path);
+    public void playerSave(String filepath);
+    public ArrayList<Player> readPlayerData();
 }

@@ -4,11 +4,13 @@ public class Team {
     protected int teamID, teamGoals, teamPoints ;
     static int counter = 1;
 
-    protected IO io = new IO();
+    protected FileReader fr = new FileReader();
+    protected DBConnector dbc = new DBConnector();
 
     protected boolean addedToActiveTournament = false;  // Teams can only be added once because of this bool.
 
     protected Player player1, player2;
+
 
     // Constructor for new team.
     public Team() {
@@ -36,14 +38,24 @@ public class Team {
 
         this.teamGoals = 0;
         this.teamPoints = 0;
+    }
 
 
+    public Team(int teamID, String teamName, int teamGoals, int teamPoints){
+        this.teamID = teamID;
+        this.teamName = teamName;
+        this.teamGoals = teamGoals;
+        this.teamPoints = teamPoints;
+        this.player1 = new Player("player1", 1);
+        this.player2 = new Player("player2", 2);
+
+        counter++;
     }
 
     // If the game manager don't assign a team/player name, the app will then assign a default "Team x".
     // This function also automatically creates two new player objects and assign them as player 1 and 2.
     public void createTeams(){
-        String name = io.getUserInput("Insert Team name: ");
+        String name = fr.getUserInput("Insert Team name: ");
         if(!name.equals("")) {
             this.teamName = name;
         } else {
@@ -53,6 +65,12 @@ public class Team {
         System.out.println("\nTeam: " + teamName);
         this.player1 = new Player("Member 1: ");
         this.player2 = new Player("Member 2: ");
+        Controller.players.add(this.player1);
+        Controller.players.add(this.player2);
+        // For testing whether the players are added
+        for (Player p: Controller.players) {
+            System.out.println(p);
+        }
     }
 
     public String getTeamName() {
@@ -87,6 +105,10 @@ public class Team {
         this.player2 = player2;
     }
 
+    public int getTeamGoals() { return teamGoals; }
+
+    public int getTeamPoints() { return teamPoints; }
+
     @Override
     public String toString() {
         return  teamName +
@@ -103,4 +125,6 @@ public class Team {
     public void setAddedToActiveTournament(boolean addedToActiveTournament) {
         this.addedToActiveTournament = addedToActiveTournament;
     }
+
+
 }

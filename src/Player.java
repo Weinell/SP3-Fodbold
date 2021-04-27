@@ -3,8 +3,9 @@ public class Player {
     protected String playerName;
     protected int playerID;
     static int counter = 1;
+    protected int team_id;
 
-    IO io = new IO();
+    protected FileReader fr = new FileReader();
 
     public Player(String member)   {
         this.playerID = counter;
@@ -19,8 +20,16 @@ public class Player {
         counter++;
     }
 
+    public Player(int id, int team_id, String playerName)   {
+
+        this.playerID = id;
+        this.team_id = team_id;
+        this.playerName = playerName;
+
+    }
+
     public void createPlayer(String member) {
-        String name = io.getUserInput(member);
+        String name = fr.getUserInput(member);
         if(!name.equals("")) {
             this.playerName = name;
         } else {
@@ -28,19 +37,19 @@ public class Player {
         }
     }
 
-    public String getName() {
+    public String getPlayerName() {
         return playerName;
     }
 
-    public void setName(String name) {
+    public void setPlayerName(String name) {
         this.playerName = name;
     }
 
-    public int getID() {
+    public int getPlayerID() {
         return playerID;
     }
 
-    public void setID(int ID) {
+    public void setPlayerID(int ID) {
         this.playerID = ID;
     }
 
@@ -49,4 +58,14 @@ public class Player {
         return playerName +
                 "," + playerID;
     }
+
+    public int getTeam_id() {
+        return team_id;
+    }
+
+    public void setTeam_id(int team_id) {
+        this.team_id = team_id;
+    }
+
+
 }

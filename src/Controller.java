@@ -1,26 +1,123 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Controller {
 
+    DBConnector dbc = new DBConnector();
+
     protected Tournament tournament;
     protected boolean activeTournament = false;  // When true, current tournament name and numbers of teams are shown in the top of the welcome message.
-    protected IO io = new IO();
+    public static IO io;
+    protected FileReader fr = new FileReader();
 
+    public static ArrayList<Player> players = new ArrayList<>();
     protected static ArrayList<Team> teams = new ArrayList<>(); // Database of all teams. Not necessarily a part of any tournaments yet.
-    protected static ArrayList<Match> match = new ArrayList<>();
+    protected static ArrayList<Match> matches = new ArrayList<>();
+
 
     boolean goBack = false;  // Used inside the menus.
+
+    //ENUM
+    enum Datasource{
+        DATABASE,
+        CSVFILE
+    }
+    private static Datasource src = Datasource.DATABASE;
+    private static String path;
+    //todo: make enum for various data sources
 
     // TODO: maybe just put it into the constructor of the controller class.
     public void mainApplication() {
         // Makes sure the application loads the database of previously added teams.
-        teams = readTeamData();
-        match = readMatchData();
+//        teams = readTeamData();
+        loadData();
+        distributePlayers();
+        for (Player p: players) {
+            System.out.println(p);
+        }
+//        teams = dbc.readTeamData(path);
+        matches = readMatchData();
+        //dbc.teamSave("src/teamData.txt");
         welcomeMessage();
+
+
     }
+
+
+    public static void loadData(){
+        io = getIO();// new FileReader();// todo: use a getIO() method to instiate the reader/connector dynamically
+
+        teams = io.readTeamData(path);
+        players = io.readPlayerData();
+    }
+
+    public static IO getIO() {
+        if(src == Datasource.DATABASE){
+            path = null;
+            return new DBConnector();
+        }else if (src == Datasource.CSVFILE){
+            path = "teamData.txt";
+            return new FileReader();
+        }
+        return null;
+    }
+
+
+    public static Team getTeamByID(int id) {
+        for (Team t : teams) {
+            if (t.getTeamID() == id) {
+                return t;
+            }
+        }
+        System.out.println("There was no team found");
+        return null;
+    }
+
+
+    public static Player getPlayerByID(int id) {
+        for (Player p : players) {
+            if (p.getPlayerID() == id) {
+                return p;
+            }
+        }
+        System.out.println("There was no player found");
+        return null;
+    }
+
+
+    public static int getTeamIDbyPlayer(int playerID) {
+        for (Team t : teams){
+            if(t.getPlayer1().getPlayerID()==playerID || t.getPlayer2().getPlayerID()==playerID) {
+                return t.getTeamID();
+            }
+        }
+        System.out.println("There was no team found for that player");
+        return 0;
+    }
+
+
+    public static void distributePlayers() {
+
+        for (int i = 0; i < teams.size(); i++) {
+
+            for (int j = 0; j < players.size(); j++) {
+
+                if (teams.get(i).getTeamID() == players.get(j).getTeam_id()) {
+
+                    if (players.get(j).getPlayerID() % 2 != 0) {
+                        teams.get(i).setPlayer1(players.get(j));
+                    } else {
+                        teams.get(i).setPlayer2(players.get(j));
+                    }
+                }
+            }
+        }
+    }
+
+
 
 
     // The menu system is divided into different Events: Tournament, Teams, Players. Each event has sub events as well.
@@ -33,7 +130,7 @@ public class Controller {
         System.out.println("\n" + tipForUser);
 
         System.out.println("\nWhat do you wish to do? ");
-        String input = io.getUserInput("\n" +
+        String input = fr.getUserInput("\n" +
                 "1) Tournaments " + "\n" +
                 "2) Teams " + "\n" +
                 "3) Quit " + "\n" +
@@ -47,8 +144,11 @@ public class Controller {
         switch (input) {
             case "1" -> eventTournaments();
             case "2" -> eventTeams();
-            case "3" -> System.exit(0);
-
+            case "3" -> {
+                dbc.teamSave("src/teamData.txt");
+                dbc.playerSave(null);
+                System.exit(0);
+            }
         }
     }
 
@@ -73,7 +173,7 @@ public class Controller {
             System.out.println("\n" + tipForUser);
 
             System.out.println("\nWhat do you wish to do? ");
-            String input = io.getUserInput("\n" +
+            String input = fr.getUserInput("\n" +
                     "1) Create new Tournament " + "\n" +
                     "2) Add teams " + "\n" +
                     "3) Overview of added teams " + "\n" +
@@ -109,9 +209,9 @@ public class Controller {
     public void eventNewTournament() {
         if (!activeTournament) {
             System.out.println("\nThere is no active tournament");
-            String input = io.getUserInput("\nStart new Tournament? Y/N ").toLowerCase();
+            String input = fr.getUserInput("\nStart new Tournament? Y/N ").toLowerCase();
             if (input.equals("y")) {
-                input = io.getUserInput("\nWhats the name of the tournament: ");
+                input = fr.getUserInput("\nWhats the name of the tournament: ");
                 tournament = new Tournament(16, input);
                 activeTournament = true;
             } else if (input.equals("n")) {
@@ -131,7 +231,7 @@ public class Controller {
 
             goBack = false;
             while (!goBack && !tournament.isTournamentFull()) {
-                int input = io.getUserInputInteger("\nInput Team ID to add to tournament: ");
+                int input = fr.getUserInputInteger("\nInput Team ID to add to tournament: ");
                 if (input == 0) {
                     goBack = true;
                     eventTournaments();
@@ -194,8 +294,8 @@ public class Controller {
                     // first round
                     for (Match m : tournament.getMatches8()) {
                         System.out.println(m);
-                        match.add(m);
-                        io.matchSave("src/matchData.txt");
+                        matches.add(m);
+                        fr.matchSave("src/matchData.txt");
                     }
                     Team[] teamsQuarterFinal = tournament.resultOfMatch8();
                     tournament.matches4 = tournament.createRound(teamsQuarterFinal);
@@ -204,8 +304,8 @@ public class Controller {
                     System.out.println("============");
                     for (Match m : tournament.getMatches4()) {
                         System.out.println(m);
-                        match.add(m);
-                        io.matchSave("src/matchData.txt");
+                        matches.add(m);
+                        fr.matchSave("src/matchData.txt");
                     }
                     Team[] teamsSemiFinal = tournament.resultOfMatch4();
                     tournament.matches2 = tournament.createRound(teamsSemiFinal);
@@ -214,8 +314,8 @@ public class Controller {
                     System.out.println("============");
                     for (Match m : tournament.getMatches2()) {
                         System.out.println(m);
-                        match.add(m);
-                        io.matchSave("src/matchData.txt");
+                        matches.add(m);
+                        fr.matchSave("src/matchData.txt");
                     }
                     Team[] teamsFinal = tournament.resultOfMatch2();
                     tournament.finalMatch = tournament.createFinalRound(teamsFinal);
@@ -223,11 +323,11 @@ public class Controller {
                     System.out.println("\nFinal");
                     System.out.println("============");
                     System.out.println(tournament.getFinalMatch());
-                    match.add(tournament.getFinalMatch());
-                    io.matchSave("src/matchData.txt");
+                    matches.add(tournament.getFinalMatch());
+                    fr.matchSave("src/matchData.txt");
 
                     Team winner = tournament.resultOfFinal();
-                    io.matchSave("src/matchData.txt");
+                    fr.matchSave("src/matchData.txt");
                     System.out.println("\n" + winner.getTeamName() + " is the winner of the Tournament!!");
                     tournament.setTournamentFinished(true);
                 }
@@ -256,7 +356,7 @@ public class Controller {
             System.out.println("\n" + tipForUser);
 
             System.out.println("\nWhat do you wish to do? ");
-            String input = io.getUserInput("\n" +
+            String input = fr.getUserInput("\n" +
                     "1) Create new team " + "\n" +
                     "2) Print all existing teams from the database " + "\n" +
                     "3) Back " + "\n" +
@@ -281,14 +381,17 @@ public class Controller {
 
     public void eventCreateTeams() {
         teams.add(new Team()); // Creates a new team which then ask for details about team and player names
-        io.teamSave("src/teamData.txt"); // Saves to teamData.txt everytime a new team is created.
+        fr.teamSave("src/teamData.txt"); // Saves to teamData.txt everytime a new team is created.
 
     }
 
     // TODO: So far its only to print a list of all the teams. Maybe we should add an search and edit function
     public void eventManageTeams() {
         for (Team t : teams) {
-            System.out.println(t.getTeamID() + ") " + t.getTeamName() + " (" + t.getPlayer1().getName() + " and " + t.getPlayer2().getName() + ")");
+            System.out.println(t.getTeamID() + ") " + t.getTeamName() + " (" + t.getPlayer1().getPlayerName() + " and " + t.getPlayer2().getPlayerName() + ")");
+        }
+        for (Player p : players) {
+            System.out.println(p);
         }
     }
 
