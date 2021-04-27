@@ -1,2 +1,2 @@
-Team1,1,Teamer1,1,Teamer2,2
-Uyuyu,2,Lyy,3,Loo,4
+Mads Team,1,Mads,1,Eske,2
+Esks,2,Jonas,3,Nookolai,4

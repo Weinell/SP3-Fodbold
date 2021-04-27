@@ -33,7 +33,7 @@ public class Controller {
     public void mainApplication() {
         // Makes sure the application loads the database of previously added teams.
 //        teams = readTeamData();
-        //loadData();
+        loadData();
 //        teams = dbc.readTeamData(path);
         matches = readMatchData();
         dbc.teamSave("src/teamData.txt");
