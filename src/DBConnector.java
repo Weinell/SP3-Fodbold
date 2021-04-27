@@ -9,7 +9,7 @@ public class DBConnector implements IO {
 
     //  Database credentials
     static final String USER = "root";
-    static final String PASS = "MadsDat1";
+    static final String PASS = "niko3460";
 
 
     @Override
@@ -142,8 +142,8 @@ public class DBConnector implements IO {
         ResultSet rs = null;
 
         //Insert/upsert
-        String sql = "INSERT INTO Players( id, playerName) "
-                + "VALUES(?,?) ON DUPLICATE KEY UPDATE id=?, playerName=?";
+        String sql = "INSERT INTO Players( team_id, playerName) "
+                + "VALUES(?,?) ON DUPLICATE KEY UPDATE team_id=?, playerName=?";
 
         try{
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
@@ -156,15 +156,12 @@ public class DBConnector implements IO {
 
             for(int i = 1; i <= Controller.players.size();i++){
 
-                pstmt.setInt(1,Controller.getPlayerByID(i).getPlayerID());
-                //pstmt.setInt(2,0);
+                pstmt.setInt(1,Controller.getTeamIDbyPlayer(i));
                 pstmt.setString(2,Controller.getPlayerByID(i).getPlayerName());
 
                 // Update
 
-                pstmt.setInt(3,Controller.getPlayerByID(i).getPlayerID());
-                //2
-                //pstmt.setInt(5,0);
+                pstmt.setInt(3,Controller.getTeamIDbyPlayer(i));
                 pstmt.setString(4,Controller.getPlayerByID(i).getPlayerName());
 
                 pstmt.addBatch();
