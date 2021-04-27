@@ -34,6 +34,9 @@ public class Controller {
         // Makes sure the application loads the database of previously added teams.
 //        teams = readTeamData();
         loadData();
+        for (Player p: players) {
+            System.out.println(p);
+        }
 //        teams = dbc.readTeamData(path);
         matches = readMatchData();
         dbc.teamSave("src/teamData.txt");

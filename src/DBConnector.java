@@ -211,12 +211,13 @@ public class DBConnector implements IO {
 
                 //Display values
                 System.out.print("ID: " + id);
-                System.out.print("Team ID: " + team_id);
-                System.out.print("Player name: " + playerName);
+                System.out.print(" Team ID: " + team_id);
+                System.out.println(" Player name: " + playerName);
 
 
                 Player p = new Player(id, team_id, playerName);
                 PlayerList.add(p);
+
 
             }
             //STEP 6: Clean-up environment
