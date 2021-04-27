@@ -50,7 +50,6 @@ public class Team {
         this.player2 = new Player("player2", 2);
 
         counter++;
-        System.out.println("new team created");
     }
 
     // If the game manager don't assign a team/player name, the app will then assign a default "Team x".
