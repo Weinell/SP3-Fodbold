@@ -367,5 +367,136 @@ public class DBConnector implements IO {
     }
 
 
+    @Override
+    public void tournySave(String filepath) {
+
+        Connection conn = null;
+        // Statement stmt = null;
+        // for insert a new candidate
+        ResultSet rs = null;
+
+        //Insert/upsert
+        String sql = "INSERT INTO TeamMatches(id, match_id, team_id, score, points) "
+                + "VALUES(?,?,?,?,?) ON DUPLICATE KEY UPDATE id=?, match_id=?, team_id=?, score, points";
+
+        try{
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+            PreparedStatement pstmt = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+
+            //STEP 2: Execute a query
+            System.out.println("Saving Tournament Data...");
+            //stmt = conn.createStatement();
+
+
+            for(int i = 1; i <= Controller.tournaments.size();i++){
+
+                pstmt.setInt(1, Controller.getTeamMatchesByID(i).getTournamentID());
+                pstmt.setInt(2, Controller.getTeamMatchesByID(i).getTournamentMatch()); // hvordan gør man med matches?
+                pstmt.setInt(3, Controller.getTeamMatchesByID(i).getTournamentTeam1());
+                pstmt.setInt(4, Controller.getTeamMatchesByID(i).getTournamentTeam2());
+                pstmt.setInt(5, Controller.getTeamMatchesByID(i).getTournamentScore());
+                pstmt.setInt(6, Controller.getTeamMatchesByID(i).getTournamentPoints());
+
+                // Update
+
+                pstmt.setInt(7, Controller.getTeamMatchesByID(i).getTournamentID());
+                pstmt.setInt(8, Controller.getTeamMatchesByID(i).getTournamentMatch());
+                pstmt.setInt(9, Controller.getTeamMatchesByID(i).getTournamentTeam1());
+                pstmt.setInt(10, Controller.getTeamMatchesByID(i).getTournamentTeam2());
+                pstmt.setInt(11, Controller.getTeamMatchesByID(i).getTournamentScore());
+                pstmt.setInt(12, Controller.getTeamMatchesByID(i).getTournamentPoints());
+
+                pstmt.addBatch();
+
+            }
+            pstmt.executeBatch();
+
+        }catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                if(rs != null)  rs.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+
+    public ArrayList<Tournament> readTournyData() {
+        ArrayList<Tournament> TournyList = new ArrayList<>();
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+            //STEP 2: Register JDBC driver
+            // Class.forName("com.mysql.jdbc.Driver");
+
+            //STEP 3: Open a connection
+            System.out.println("Connecting to database...");
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            //STEP 4: Execute a query
+            System.out.println("Loading Tournament Data...");
+            stmt = conn.createStatement();
+
+
+            String sql = "SELECT * FROM TeamMatches";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            //STEP 5: Extract data from result set
+            while (rs.next()) {
+                //Retrieve by column name
+                int id = rs.getInt("id");
+                int match_id = rs.getInt("match_id");
+                int team_id1 = rs.getInt("team_id");
+                int team_id2 = rs.getInt("team_id");
+                int score = rs.getInt("score");
+                int points = rs.getInt("points");
+
+
+
+
+                //Display values
+                System.out.print("ID: " + id);
+                System.out.print(", Match: " + match_id);
+                System.out.print(", Team: " + team_id1 + "vs. " + team_id2);
+                System.out.print(", Score: " + score);
+                System.out.println(", Points: " + points);
+
+
+                Tournament t = new Tournament(id, match_id, team_id1, team_id2, score, points);
+                TournyList.add(t);
+
+
+            }
+            //STEP 6: Clean-up environment
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        } finally {
+            //finally block used to close resources
+            try {
+                if (stmt != null)
+                    stmt.close();
+            } catch (SQLException se2) {
+            }// nothing we can do
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }//end finally try
+        }//end try
+
+
+        return TournyList;
+    }
+
 
 }

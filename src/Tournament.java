@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -31,6 +32,12 @@ public class Tournament {
         this.matches2 = new Match[2];
         this.finalMatch = new Match(new Team("first", 0), new Team("second", 0));
     }
+
+    public Tournament(int id, int match_id, int team_id1, int team_id2, int score, int points) {
+
+
+    }
+
 
     // Get team from controller class, and checks if there is room in the tournament before adding it.
     public void addTeamToTournament(Team team) {
