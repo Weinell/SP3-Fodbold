@@ -91,6 +91,17 @@ public class Controller {
     }
 
 
+    public static Match getMatchByID(int id) {
+        for (Match m : matches) {
+            if (m.getMatchID() == id) {
+                return m;
+            }
+        }
+        System.out.println("There was no match found");
+        return null;
+    }
+
+
     public static void distributePlayers() {
 
         for (int i = 0; i < teams.size(); i++) {

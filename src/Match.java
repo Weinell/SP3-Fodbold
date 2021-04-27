@@ -3,6 +3,8 @@ public class Match {
     protected int score1, score2;
     protected int matchID;
     protected static int counter = 1;
+    protected int matchRound;
+    protected boolean matchPlayed;
 
     public Match() {
         this.team1 = null;
@@ -30,6 +32,14 @@ public class Match {
         this.team2 = team2;
         this.score1 = score1;
         this.score2 = score2;
+
+    }
+
+    public Match(int id, int round, boolean played) {
+
+        this.matchID = id;
+        this.matchRound = round;
+        this.matchPlayed = played;
 
     }
 
@@ -62,6 +72,14 @@ public class Match {
 
     public int getMatchID() {
         return matchID;
+    }
+
+    public int getMatchRound() {
+        return matchRound;
+    }
+
+    public boolean getMatchPlayed() {
+        return matchPlayed;
     }
 
     public void setMatchID(int matchID) {
