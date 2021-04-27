@@ -34,12 +34,13 @@ public class Controller {
         // Makes sure the application loads the database of previously added teams.
 //        teams = readTeamData();
         loadData();
+        distributePlayers();
         for (Player p: players) {
             System.out.println(p);
         }
 //        teams = dbc.readTeamData(path);
         matches = readMatchData();
-        dbc.teamSave("src/teamData.txt");
+        //dbc.teamSave("src/teamData.txt");
         welcomeMessage();
 
 
@@ -96,6 +97,26 @@ public class Controller {
         System.out.println("There was no team found for that player");
         return 0;
     }
+
+
+    public static void distributePlayers() {
+
+        for (int i = 0; i < teams.size(); i++) {
+
+            for (int j = 0; j < players.size(); j++) {
+
+                if (teams.get(i).getTeamID() == players.get(j).getTeam_id()) {
+
+                    if (players.get(j).getPlayerID() % 2 != 0) {
+                        teams.get(i).setPlayer1(players.get(j));
+                    } else {
+                        teams.get(i).setPlayer2(players.get(j));
+                    }
+                }
+            }
+        }
+    }
+
 
 
 
@@ -368,6 +389,9 @@ public class Controller {
     public void eventManageTeams() {
         for (Team t : teams) {
             System.out.println(t.getTeamID() + ") " + t.getTeamName() + " (" + t.getPlayer1().getPlayerName() + " and " + t.getPlayer2().getPlayerName() + ")");
+        }
+        for (Player p : players) {
+            System.out.println(p);
         }
     }
 

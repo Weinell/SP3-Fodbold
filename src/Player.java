@@ -25,7 +25,6 @@ public class Player {
         this.playerID = id;
         this.team_id = team_id;
         this.playerName = playerName;
-        counter++;
 
     }
 
@@ -59,4 +58,14 @@ public class Player {
         return playerName +
                 "," + playerID;
     }
+
+    public int getTeam_id() {
+        return team_id;
+    }
+
+    public void setTeam_id(int team_id) {
+        this.team_id = team_id;
+    }
+
+
 }
