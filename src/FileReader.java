@@ -10,10 +10,10 @@ import java.util.Scanner;
 public class FileReader implements IO {
 
 
-        public void teamSave(String filepath) {
+        public void teamSave() {
             FileWriter fw = null;
             try {
-                fw = new FileWriter(filepath);
+                fw = new FileWriter("src/teamData.txt");
                 for(Team teams : Controller.teams)
                     fw.write(teams.toString()+"\n");
                 fw.close();
@@ -22,10 +22,10 @@ public class FileReader implements IO {
             }
         }
 
-        public void matchSave(String filepath) {
+        public void matchSave() {
             FileWriter fw = null;
             try {
-                fw = new FileWriter(filepath);
+                fw = new FileWriter("src/matchData.txt");
                 for(Match match : Controller.matches)
                     fw.write(match.matchDataToString()+"\n");
                 fw.close();
@@ -36,8 +36,35 @@ public class FileReader implements IO {
 
     @Override
     public ArrayList<Match> readMatchData() {
-        return null;
+        ArrayList<Match> matchList = new ArrayList<>();
+
+        File file = new File("src/matchData.txt");
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (scanner != null) {
+            while (scanner.hasNextLine()) {
+                String[] commaSeparatedValues = scanner.nextLine().split(",");
+                int matchID = Integer.parseInt(commaSeparatedValues[0]);
+                String matchTeam1Name = commaSeparatedValues[1];
+                int matchTeam1ID = Integer.parseInt(commaSeparatedValues[2]);
+                String matchTeam2Name = commaSeparatedValues[3];
+                int matchTeam2ID = Integer.parseInt(commaSeparatedValues[4]);
+                int matchScore1 = Integer.parseInt(commaSeparatedValues[5]);
+                int matchScore2 = Integer.parseInt(commaSeparatedValues[6]);
+
+
+                // We created a new constructor inside the Team class, which assigns the data to the respectable variables.
+                matchList.add(new Match(matchID,new Team(matchTeam1Name,matchTeam1ID),new Team(matchTeam2Name,matchTeam2ID), matchScore1, matchScore2 ));
+            }
+        }
+
+        return matchList;
     }
+
 
     @Override
     public void tournySave(String filepath) {
@@ -50,10 +77,10 @@ public class FileReader implements IO {
     }
 
     @Override
-    public ArrayList<Team> readTeamData(String path) {
+    public ArrayList<Team> readTeamData() {
         ArrayList<Team> teamList = new ArrayList<>();
 
-        File file = new File(path);
+        File file = new File("src/teamData.txt");
         Scanner scanner = null;
         try {
             scanner = new Scanner(file);
@@ -79,7 +106,7 @@ public class FileReader implements IO {
     }
 
     @Override
-    public void playerSave(String filepath) {
+    public void playerSave() {
 
     }
 

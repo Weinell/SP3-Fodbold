@@ -1,11 +1,9 @@
 public class Player {
 
-    protected String playerName;
-    protected int playerID;
-    static int counter = 1;
-    protected int team_id;
-
-    protected FileReader fr = new FileReader();
+    private String playerName;
+    private int playerID;
+    private static int counter = 1;
+    private int team_id;
 
     public Player(String member)   {
         this.playerID = counter;

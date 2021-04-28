@@ -1,15 +1,12 @@
 public class Team {
 
-    protected String teamName;
-    protected int teamID, teamGoals, teamPoints ;
-    static int counter = 1;
-
-    protected FileReader fr = new FileReader();
-    protected DBConnector dbc = new DBConnector();
+    private String teamName;
+    private int teamID, teamGoals, teamPoints ;
+    private static int counter = 1;
 
     protected boolean addedToActiveTournament = false;  // Teams can only be added once because of this bool.
 
-    protected Player player1, player2;
+    private Player player1, player2;
 
 
     //TODO: possibility of adding 2-6 players per team
@@ -70,10 +67,6 @@ public class Team {
         this.player2 = new Player("Member 2: ");
         Controller.players.add(this.player1);
         Controller.players.add(this.player2);
-        // For testing whether the players are added
-//        for (Player p: Controller.players) {
-//            System.out.println(p);
-//        }
     }
 
     public String getTeamName() {

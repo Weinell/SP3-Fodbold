@@ -1,10 +1,10 @@
 public class Match {
-    protected Team team1, team2;
-    protected int score1, score2;
-    protected int matchID;
-    protected static int counter = 1;
-    protected int matchRound;
-    protected boolean matchPlayed;
+    private Team team1, team2;  // TODO: change to Team[] = new Team[6]
+    private int score1, score2;
+    private int matchID;
+    private static int counter = 1;
+    private int matchRound;
+    private boolean matchPlayed;
 
     public Match() {
         this.team1 = null;
@@ -14,13 +14,6 @@ public class Match {
     }
 
     public Match(Team team1, Team team2) {
-        this.team1 = team1;
-        this.team2 = team2;
-
-    }
-
-    public Match(int matchID, Team team1, Team team2) {
-        this.matchID = matchID;
         this.team1 = team1;
         this.team2 = team2;
 

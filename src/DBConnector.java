@@ -9,11 +9,11 @@ public class DBConnector implements IO {
 
     //  Database credentials
     static final String USER = "root";
-    static final String PASS = "niko3460";
+    static final String PASS = "datamatik13";
 
 
     @Override
-    public void teamSave(String filepath) {
+    public void teamSave() {
 
         Connection conn = null;
         // Statement stmt = null;
@@ -61,7 +61,7 @@ public class DBConnector implements IO {
     }
 
     @Override
-    public void matchSave(String filepath) {
+    public void matchSave() {
 
     }
 
@@ -81,7 +81,7 @@ public class DBConnector implements IO {
     }
 
     @Override
-    public ArrayList<Team> readTeamData(String path) {
+    public ArrayList<Team> readTeamData() {
         ArrayList<Team> TeamList = new ArrayList<>();
         Connection conn = null;
         Statement stmt = null;
@@ -149,7 +149,7 @@ public class DBConnector implements IO {
     }
 
     @Override
-    public void playerSave(String filepath) {
+    public void playerSave() {
 
         Connection conn = null;
         // Statement stmt = null;

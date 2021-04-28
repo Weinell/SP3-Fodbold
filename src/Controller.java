@@ -1,21 +1,14 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Controller {
 
-    DBConnector dbc = new DBConnector();
 
     protected Tournament tournament;
     protected boolean activeTournament = false;  // When true, current tournament name and numbers of teams are shown in the top of the welcome message.
-    public static IO io;
+    public IO io;
     public UI ui;
-    protected FileReader fr = new FileReader();
 
-
-    public static ArrayList<Player> players = new ArrayList<>();
+    protected static ArrayList<Player> players = new ArrayList<>();
     protected static ArrayList<Team> teams = new ArrayList<>(); // Database of all teams. Not necessarily a part of any tournaments yet.
     protected static ArrayList<Match> matches = new ArrayList<>();
     protected static ArrayList<Tournament> tournaments = new ArrayList<>();
@@ -31,39 +24,37 @@ public class Controller {
         CSVFILE
     }
     private static Datasource src = Datasource.DATABASE;
-    private static String path;
 
-
-
-    public void mainApplication() {
-        ui = new UI(this, dbc, fr);
+    public Controller() {
         // Makes sure the application loads the database of previously added teams.
         loadData();
+        ui = new UI(this, io);
+
+        // Distribute the loaded players into their correct teams.
         distributePlayers();
 
-        matches = readMatchData();
+        // Starting the tournament user interface
         ui.welcomeMessage();
     }
 
-
-    public static void loadData(){
+    public void loadData(){
         io = getIO();// new FileReader();
         players = io.readPlayerData();
-        teams = io.readTeamData(path);
+        teams = io.readTeamData();
+//        matches = io.readMatchData();   // TODO: Right now readMatchData returns null, which means the loop breaks in ui.eventResult.
     }
 
-    public static IO getIO() {
+    public IO getIO() {
         if(src == Datasource.DATABASE){
-            path = null;
             return new DBConnector();
         }else if (src == Datasource.CSVFILE){
-            path = "teamData.txt";
             return new FileReader();
         }
         return null;
     }
 
 
+    // Static so they can get accessed in the loading and saving classes.
     public static Team getTeamByID(int id) {
         for (Team t : teams) {
             if (t.getTeamID() == id) {
@@ -135,35 +126,5 @@ public class Controller {
                 }
             }
         }
-    }
-
-    public static ArrayList<Match> readMatchData() {
-        ArrayList<Match> matchList = new ArrayList<>();
-
-        File file = new File("src/matchData.txt");
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        if (scanner != null) {
-            while (scanner.hasNextLine()) {
-                String[] commaSeparatedValues = scanner.nextLine().split(",");
-                int matchID = Integer.parseInt(commaSeparatedValues[0]);
-                String matchTeam1Name = commaSeparatedValues[1];
-                int matchTeam1ID = Integer.parseInt(commaSeparatedValues[2]);
-                String matchTeam2Name = commaSeparatedValues[3];
-                int matchTeam2ID = Integer.parseInt(commaSeparatedValues[4]);
-                int matchScore1 = Integer.parseInt(commaSeparatedValues[5]);
-                int matchScore2 = Integer.parseInt(commaSeparatedValues[6]);
-
-
-                // We created a new constructor inside the Team class, which assigns the data to the respectable variables.
-                matchList.add(new Match(matchID,new Team(matchTeam1Name,matchTeam1ID),new Team(matchTeam2Name,matchTeam2ID), matchScore1, matchScore2 ));
-            }
-        }
-
-        return matchList;
     }
 }
