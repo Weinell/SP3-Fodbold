@@ -55,7 +55,7 @@ public class Team {
     // If the game manager don't assign a team/player name, the app will then assign a default "Team x".
     // This function also automatically creates two new player objects and assign them as player 1 and 2.
     public void createTeams(){
-        String name = fr.getUserInput("Insert Team name: ");
+        String name = UI.getUserInput("Insert Team name: ");
         if(!name.equals("")) {
             this.teamName = name;
         } else {
@@ -68,9 +68,9 @@ public class Team {
         Controller.players.add(this.player1);
         Controller.players.add(this.player2);
         // For testing whether the players are added
-        for (Player p: Controller.players) {
-            System.out.println(p);
-        }
+//        for (Player p: Controller.players) {
+//            System.out.println(p);
+//        }
     }
 
     public String getTeamName() {
@@ -105,9 +105,26 @@ public class Team {
         this.player2 = player2;
     }
 
+    public void setTeamGoals(int teamGoals) {
+        this.teamGoals = teamGoals;
+    }
+
+    public void setTeamPoints(int teamPoints) {
+        this.teamPoints = teamPoints;
+    }
+
     public int getTeamGoals() { return teamGoals; }
 
     public int getTeamPoints() { return teamPoints; }
+
+    public void increaseTeamGoals(int goalsFromMatch) {
+        this.teamGoals += goalsFromMatch;
+    }
+
+    public void increaseTeamPoints(int pointsFromMatch) {
+        this.teamPoints += pointsFromMatch;
+    }
+
 
     @Override
     public String toString() {
