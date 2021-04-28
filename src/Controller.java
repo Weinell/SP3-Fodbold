@@ -18,6 +18,7 @@ public class Controller {
     public static ArrayList<Player> players = new ArrayList<>();
     protected static ArrayList<Team> teams = new ArrayList<>(); // Database of all teams. Not necessarily a part of any tournaments yet.
     protected static ArrayList<Match> matches = new ArrayList<>();
+    protected static ArrayList<Tournament> tournaments = new ArrayList<>();
 
 
 
@@ -91,6 +92,28 @@ public class Controller {
         }
         System.out.println("There was no team found for that player");
         return 0;
+    }
+
+
+    public static Match getMatchByID(int id) {
+        for (Match m : matches) {
+            if (m.getMatchID() == id) {
+                return m;
+            }
+        }
+        System.out.println("There was no match found");
+        return null;
+    }
+
+
+    public static Tournament getTeamMatchesByID(int id) {
+        for (Tournament t : tournaments) {
+            if (t.getTournamentID() == id) {
+                return t;
+            }
+        }
+        System.out.println("There was no tournament found");
+        return null;
     }
 
 
