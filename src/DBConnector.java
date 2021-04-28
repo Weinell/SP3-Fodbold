@@ -9,7 +9,7 @@ public class DBConnector implements IO {
 
     //  Database credentials
     static final String USER = "root";
-    static final String PASS = "MadsDat1";
+    static final String PASS = "niko3460";
 
 
     @Override
@@ -63,6 +63,21 @@ public class DBConnector implements IO {
     @Override
     public void matchSave(String filepath) {
 
+    }
+
+    @Override
+    public ArrayList<Match> readMatchData() {
+        return null;
+    }
+
+    @Override
+    public void tournySave(String filepath) {
+
+    }
+
+    @Override
+    public ArrayList<Tournament> readTournyData() {
+        return null;
     }
 
     @Override
@@ -252,7 +267,7 @@ public class DBConnector implements IO {
     }
 
     //TODO: save and reader for match and tournament.
-    //TODO: 
+
 
 
 

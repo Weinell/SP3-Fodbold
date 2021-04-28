@@ -35,6 +35,21 @@ public class FileReader implements IO {
         }
 
     @Override
+    public ArrayList<Match> readMatchData() {
+        return null;
+    }
+
+    @Override
+    public void tournySave(String filepath) {
+
+    }
+
+    @Override
+    public ArrayList<Tournament> readTournyData() {
+        return null;
+    }
+
+    @Override
     public ArrayList<Team> readTeamData(String path) {
         ArrayList<Team> teamList = new ArrayList<>();
 

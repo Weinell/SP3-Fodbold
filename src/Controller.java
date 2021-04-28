@@ -21,7 +21,9 @@ public class Controller {
     protected static ArrayList<Tournament> tournaments = new ArrayList<>();
 
 
+    //TODO: localDateTime when starting tournament. Intervals of 15-30 mins per match.
 
+    //TODO: return name of players on winning team. "SELECT Players FROM WinningTeam IN Tournament"
 
     //ENUM
     enum Datasource{

@@ -12,6 +12,9 @@ public class Team {
     protected Player player1, player2;
 
 
+    //TODO: possibility of adding 2-6 players per team
+
+
     // Constructor for new team.
     public Team() {
         this.teamID = counter;
