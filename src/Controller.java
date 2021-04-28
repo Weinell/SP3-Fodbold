@@ -30,9 +30,9 @@ public class Controller {
     }
     private static Datasource src = Datasource.DATABASE;
     private static String path;
-    //todo: make enum for various data sources
 
-    // TODO: maybe just put it into the constructor of the controller class.
+
+
     public void mainApplication() {
         ui = new UI(this, dbc, fr);
         // Makes sure the application loads the database of previously added teams.
@@ -45,7 +45,7 @@ public class Controller {
 
 
     public static void loadData(){
-        io = getIO();// new FileReader();// todo: use a getIO() method to instiate the reader/connector dynamically
+        io = getIO();// new FileReader();
         players = io.readPlayerData();
         teams = io.readTeamData(path);
     }

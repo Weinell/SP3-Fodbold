@@ -159,7 +159,7 @@ public class UI {
         }
     }
 
-    // TODO: When tournament start, app should create 8 new match objects and put them into an array
+
     public void eventStartTournament() {
         if (ctr.tournament != null) {
             if (ctr.tournament.isTournamentFull() && !ctr.tournament.isTournamentStarted()) {   // booleans makes sure you cant start the tournament if there is not enough teams admitted.
@@ -283,7 +283,7 @@ public class UI {
 
     }
 
-    // TODO: So far its only to print a list of all the teams. Maybe we should add an search and edit function
+
     public void eventManageTeams() {
         for (Team t : ctr.teams) {
             System.out.println(t.getTeamID() + ") "
@@ -331,7 +331,7 @@ public class UI {
         return scan.nextLine();
     }
 
-    // TODO: Couldn't get the getUserInput function to work for Integer. So i made this instead. Maybe find another solution.
+    // Couldn't get the getUserInput function to work for Integer. So i made this instead. Maybe find another solution.
     public static int getUserInputInteger(String msg) {
         System.out.print(msg);
         Scanner scan = new Scanner(System.in);
