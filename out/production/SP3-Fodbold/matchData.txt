@@ -28,3 +28,48 @@
 13,LoveBoat,12,Killers,11,3,10
 14,DingDong,4,Omega,15,10,4
 15,Killers,11,DingDong,4,10,4
+1,Team 13,13,Groupies,7,10,10
+2,Hooters United,8,Alphas,1,10,10
+3,Enerne,5,Team 15,15,10,10
+4,Team 14,14,A TEAM,9,10,10
+5,Team 10,10,Team 12,12,10,10
+6,Team 11,11,Team 16,16,10,10
+7,DangerZone,4,Bangers,2,10,10
+8,FreakyFridays,6,Coronas,3,10,6
+9,Groupies,7,Alphas,1,10,9
+10,Team 15,15,A TEAM,9,10,9
+11,Team 12,12,Team 16,16,10,9
+12,Bangers,2,FreakyFridays,6,10,9
+13,Groupies,7,Team 15,15,10,9
+14,Team 12,12,Bangers,2,10,9
+15,Groupies,7,Team 12,12,10,9
+1,Team 3,3,Team 2,2,10,9
+2,Team 12,12,Team 15,15,10,9
+3,Team 10,10,Team 5,5,10,9
+4,Team 1,1,Team 6,6,10,9
+5,Team 16,16,Team 4,4,10,9
+6,Team 14,14,Team 13,13,10,9
+7,Team 7,7,Team 9,9,10,9
+8,Team 11,11,Team 8,8,10,9
+9,Team 3,3,Team 12,12,10,9
+10,Team 10,10,Team 1,1,10,9
+11,Team 16,16,Team 14,14,10,9
+12,Team 7,7,Team 11,11,10,9
+13,Team 3,3,Team 10,10,10,9
+14,Team 16,16,Team 7,7,10,9
+15,Team 3,3,Team 16,16,10,9
+1,FreakyFridays,6,JuleMandens Crew,10,10,9
+2,LameDudes,12,Bangers,2,10,9
+3,PolleFraSnave,16,Enerne,5,10,9
+4,MangoChutney,13,OktoberFest,15,10,9
+5,Hooters United,8,Innovators,9,10,9
+6,Coronas,3,NoFear,14,10,9
+7,Alphas,1,DangerZone,4,10,9
+8,Groupies,7,Killers,11,10,9
+9,FreakyFridays,6,LameDudes,12,10,9
+10,PolleFraSnave,16,MangoChutney,13,10,9
+11,Hooters United,8,Coronas,3,10,9
+12,Alphas,1,Groupies,7,10,9
+13,FreakyFridays,6,PolleFraSnave,16,10,9
+14,Hooters United,8,Alphas,1,10,9
+15,FreakyFridays,6,Hooters United,8,10,9

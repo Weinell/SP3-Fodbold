@@ -29,7 +29,7 @@ public class Player {
     }
 
     public void createPlayer(String member) {
-        String name = fr.getUserInput(member);
+        String name = UI.getUserInput(member);
         if(!name.equals("")) {
             this.playerName = name;
         } else {
