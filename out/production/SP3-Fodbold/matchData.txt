@@ -73,3 +73,18 @@
 13,FreakyFridays,6,PolleFraSnave,16,10,9
 14,Hooters United,8,Alphas,1,10,9
 15,FreakyFridays,6,Hooters United,8,10,9
+1,Enerne,5,Innovators,9,10,9
+2,OktoberFest,15,Coronas,3,10,9
+3,DangerZone,4,MangoChutney,13,10,9
+4,FreakyFridays,6,NoFear,14,10,9
+5,Killers,11,Alphas,1,10,9
+6,Bangers,2,LameDudes,12,10,9
+7,Hooters United,8,JuleMandens Crew,10,10,9
+8,Groupies,7,PolleFraSnave,16,10,9
+9,Enerne,5,OktoberFest,15,10,9
+10,DangerZone,4,FreakyFridays,6,10,9
+11,Killers,11,Bangers,2,10,9
+12,Hooters United,8,Groupies,7,10,9
+13,Enerne,5,DangerZone,4,10,9
+14,Killers,11,Hooters United,8,10,9
+15,Enerne,5,Killers,11,10,9

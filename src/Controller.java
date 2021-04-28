@@ -10,7 +10,7 @@ public class Controller {
 
     protected Tournament tournament;
     protected boolean activeTournament = false;  // When true, current tournament name and numbers of teams are shown in the top of the welcome message.
-    public static IO io;
+    public IO io;
     public UI ui;
     protected FileReader fr = new FileReader();
 
@@ -43,13 +43,13 @@ public class Controller {
     }
 
 
-    public static void loadData(){
+    public void loadData(){
         io = getIO();// new FileReader();// todo: use a getIO() method to instiate the reader/connector dynamically
         players = io.readPlayerData();
         teams = io.readTeamData(path);
     }
 
-    public static IO getIO() {
+    public IO getIO() {
         if(src == Datasource.DATABASE){
             path = null;
             return new DBConnector();
