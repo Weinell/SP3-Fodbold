@@ -103,15 +103,19 @@ public class Tournament {
         Team[] tempWinners = new Team[8];
         for (int i = 0; i < matches8.length; i++) {
             System.out.println("\n" + matches8[i].getTeam1().getTeamName() + " vs. " + matches8[i].getTeam2().getTeamName() + "\n");
-            int s1 = fr.getUserInputInteger("Enter " + matches8[i].getTeam1().getTeamName() + " goals: ");
-            int s2 = fr.getUserInputInteger("Enter " + matches8[i].getTeam2().getTeamName() + " goals: ");
+            int s1 = UI.getUserInputInteger("Enter " + matches8[i].getTeam1().getTeamName() + " goals: ");
+            int s2 = UI.getUserInputInteger("Enter " + matches8[i].getTeam2().getTeamName() + " goals: ");
             matches8[i].setScore1(s1);
+            matches8[i].getTeam1().increaseTeamGoals(s1);
             matches8[i].setScore2(s2);
+            matches8[i].getTeam2().increaseTeamGoals(s2);
             System.out.println(matches8[i].getScore1() + " - " + matches8[i].getScore2());
             if (s1 > s2) {
                 tempWinners[i] = matches8[i].getTeam1();
+                matches8[i].getTeam1().increaseTeamPoints(2);
             } else {
                 tempWinners[i] = matches8[i].getTeam2();
+                matches8[i].getTeam2().increaseTeamPoints(2);
             }
         }
         return tempWinners;
@@ -121,15 +125,19 @@ public class Tournament {
         Team[] tempWinners = new Team[4];
         for (int i = 0; i < matches4.length; i++) {
             System.out.println("\n" + matches4[i].getTeam1().getTeamName() + " vs. " + matches4[i].getTeam2().getTeamName() + "\n");
-            int s1 = fr.getUserInputInteger("Enter " + matches4[i].getTeam1().getTeamName() + " goals: ");
-            int s2 = fr.getUserInputInteger("Enter " + matches4[i].getTeam2().getTeamName() + " goals: ");
+            int s1 = UI.getUserInputInteger("Enter " + matches4[i].getTeam1().getTeamName() + " goals: ");
+            int s2 = UI.getUserInputInteger("Enter " + matches4[i].getTeam2().getTeamName() + " goals: ");
             matches4[i].setScore1(s1);
+            matches4[i].getTeam1().increaseTeamGoals(s1);
             matches4[i].setScore2(s2);
+            matches4[i].getTeam2().increaseTeamGoals(s2);
             System.out.println(matches4[i].getScore1() + " - " + matches4[i].getScore2());
             if (s1 > s2) {
                 tempWinners[i] = matches4[i].getTeam1();
+                matches4[i].getTeam1().increaseTeamPoints(2);
             } else {
                 tempWinners[i] = matches4[i].getTeam2();
+                matches4[i].getTeam2().increaseTeamPoints(2);
             }
         }
         return tempWinners;
@@ -139,15 +147,19 @@ public class Tournament {
         Team[] tempWinners = new Team[2];
         for (int i = 0; i < matches2.length; i++) {
             System.out.println("\n" + matches2[i].getTeam1().getTeamName() + " vs. " + matches2[i].getTeam2().getTeamName() + "\n");
-            int s1 = fr.getUserInputInteger("Enter " + matches2[i].getTeam1().getTeamName() + " goals: ");
-            int s2 = fr.getUserInputInteger("Enter " + matches2[i].getTeam2().getTeamName() + " goals: ");
+            int s1 = UI.getUserInputInteger("Enter " + matches2[i].getTeam1().getTeamName() + " goals: ");
+            int s2 = UI.getUserInputInteger("Enter " + matches2[i].getTeam2().getTeamName() + " goals: ");
             matches2[i].setScore1(s1);
+            matches2[i].getTeam1().increaseTeamGoals(s1);
             matches2[i].setScore2(s2);
+            matches2[i].getTeam2().increaseTeamGoals(s2);
             System.out.println(matches2[i].getScore1() + " - " + matches2[i].getScore2());
             if (s1 > s2) {
                 tempWinners[i] = matches2[i].getTeam1();
+                matches2[i].getTeam1().increaseTeamPoints(2);
             } else {
                 tempWinners[i] = matches2[i].getTeam2();
+                matches2[i].getTeam2().increaseTeamPoints(2);
             }
         }
         return tempWinners;
@@ -156,15 +168,19 @@ public class Tournament {
     public Team resultOfFinal() {
         Team tempWinners = null;
         System.out.println("\n" + finalMatch.getTeam1().getTeamName() + " vs. " + finalMatch.getTeam2().getTeamName() + "\n");
-        int s1 = fr.getUserInputInteger("Enter " + finalMatch.getTeam1().getTeamName() + " goals: ");
-        int s2 = fr.getUserInputInteger("Enter " + finalMatch.getTeam2().getTeamName() + " goals: ");
+        int s1 = UI.getUserInputInteger("Enter " + finalMatch.getTeam1().getTeamName() + " goals: ");
+        int s2 = UI.getUserInputInteger("Enter " + finalMatch.getTeam2().getTeamName() + " goals: ");
         finalMatch.setScore1(s1);
+        finalMatch.getTeam1().increaseTeamGoals(s1);
         finalMatch.setScore2(s2);
+        finalMatch.getTeam2().increaseTeamGoals(s2);
         System.out.println(finalMatch.getScore1() + " - " + finalMatch.getScore2());
         if (s1 > s2) {
             tempWinners = finalMatch.getTeam1();
+            finalMatch.getTeam1().increaseTeamPoints(2);
         } else {
             tempWinners = finalMatch.getTeam2();
+            finalMatch.getTeam2().increaseTeamPoints(2);
         }
 
         return tempWinners;

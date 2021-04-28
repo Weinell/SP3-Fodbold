@@ -9,18 +9,6 @@ import java.util.Scanner;
 
 public class FileReader implements IO {
 
-        public String getUserInput(String msg) {
-            System.out.print(msg);
-            Scanner scan = new Scanner(System.in);
-            return scan.nextLine();
-        }
-
-        // TODO: Couldn't get the getUserInput function to work for Integer. So i made this instead. Maybe find another solution.
-        public int getUserInputInteger(String msg) {
-            System.out.print(msg);
-            Scanner scan = new Scanner(System.in);
-            return scan.nextInt();
-        }
 
         public void teamSave(String filepath) {
             FileWriter fw = null;
