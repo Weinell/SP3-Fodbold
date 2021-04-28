@@ -251,6 +251,8 @@ public class DBConnector implements IO {
         return PlayerList;
     }
 
+    //TODO: save and reader for match and tournament.
+    //TODO: 
 
 
 
