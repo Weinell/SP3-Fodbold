@@ -1,22 +1,16 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UI {
 
-    Controller ctr;
-    DBConnector dbc;
-    FileReader fr;
+    private Controller ctr;
+    private IO io;
 
-    boolean goBack = false;  // Used inside the menus.
+    private boolean goBack = false;  // Used inside the menus.
+    private boolean paused = false; // Pausing the tournament
 
-
-    public UI(Controller ctr, DBConnector dbc, FileReader fr) {
+    public UI(Controller ctr, IO io) {
         this.ctr = ctr;
-        this.dbc = dbc;
-        this.fr = fr;
-
+        this.io = io;
     }
 
     // The menu system is divided into different Events: Tournament, Teams, Players. Each event has sub events as well.
@@ -44,8 +38,8 @@ public class UI {
             case "1" -> eventTournaments();
             case "2" -> eventTeams();
             case "3" -> {
-                dbc.teamSave("src/teamData.txt");
-                dbc.playerSave(null);
+                io.teamSave();
+                io.playerSave();
                 System.exit(0);
             }
         }
@@ -159,7 +153,6 @@ public class UI {
         }
     }
 
-
     public void eventStartTournament() {
         if (ctr.tournament != null) {
             if (ctr.tournament.isTournamentFull() && !ctr.tournament.isTournamentStarted()) {   // booleans makes sure you cant start the tournament if there is not enough teams admitted.
@@ -178,9 +171,24 @@ public class UI {
     public void eventPrintFixtures() {
         if (ctr.tournament != null) {
             if (ctr.tournament.tournamentStarted) {
-                System.out.println("Games in 1st Round:\n");
-                for (Match match : ctr.tournament.getMatches8()) {
-                    System.out.println(match);
+                if (ctr.tournament.getRound() == 1) {
+                    System.out.println("Games in 1st Round:\n");
+                    for (Match match : ctr.tournament.getMatches8()) {
+                        System.out.println(match);
+                    }
+                } else if (ctr.tournament.getRound() == 2) {
+                    System.out.println("Games in Quaterfinals:\n");
+                    for (Match match : ctr.tournament.getMatches4()) {
+                        System.out.println(match);
+                    }
+                } else if (ctr.tournament.getRound() == 3) {
+                    System.out.println("Games in Semifinals:\n");
+                    for (Match match : ctr.tournament.getMatches2()) {
+                        System.out.println(match);
+                    }
+                } else if (ctr.tournament.getRound() == 4) {
+                    System.out.println("Final:\n");
+                    System.out.println(ctr.tournament.getFinalMatch());
                 }
             } else System.out.println("\nStart tournament first.");
         } else System.out.println("\nNo Active tournament, please Create a new first.");
@@ -189,53 +197,86 @@ public class UI {
     private void eventResults() {
         if (ctr.tournament != null) {
             if (ctr.tournament.tournamentStarted) {
-                while (!ctr.tournament.tournamentFinished) {
-                    // first round
-                    for (Match m : ctr.tournament.getMatches8()) {
-                        System.out.println(m);
-                        ctr.matches.add(m);
-                        fr.matchSave("src/matchData.txt");
-                    }
-                    Team[] teamsQuarterFinal = ctr.tournament.resultOfMatch8();
-                    ctr.tournament.matches4 = ctr.tournament.createRound(teamsQuarterFinal);
-                    // Quarter Finals
-                    System.out.println("\nQuarter Finals");
-                    System.out.println("============");
-                    for (Match m : ctr.tournament.getMatches4()) {
-                        System.out.println(m);
-                        ctr.matches.add(m);
-                        fr.matchSave("src/matchData.txt");
-                    }
-                    Team[] teamsSemiFinal = ctr.tournament.resultOfMatch4();
-                    ctr.tournament.matches2 = ctr.tournament.createRound(teamsSemiFinal);
-                    // Semi Finals
-                    System.out.println("\nSemiFinals");
-                    System.out.println("============");
-                    for (Match m : ctr.tournament.getMatches2()) {
-                        System.out.println(m);
-                        ctr.matches.add(m);
-                        fr.matchSave("src/matchData.txt");
-                    }
-                    Team[] teamsFinal = ctr.tournament.resultOfMatch2();
-                    ctr.tournament.finalMatch = ctr.tournament.createFinalRound(teamsFinal);
-                    // Final
-                    System.out.println("\nFinal");
-                    System.out.println("============");
-                    System.out.println(ctr.tournament.getFinalMatch());
-                    ctr.matches.add(ctr.tournament.getFinalMatch());
-                    fr.matchSave("src/matchData.txt");
+                paused = false;
+                while (!ctr.tournament.tournamentFinished && !paused) {
+                    if (ctr.tournament.getRound() == 1) {
+                        // first round
+                        for (Match m : ctr.tournament.getMatches8()) {
+                            System.out.println(m);
+                            Controller.matches.add(m);
+                            io.matchSave();
+                        }
+                        Team[] teamsQuarterFinal = ctr.tournament.resultOfMatch8();
+                        ctr.tournament.matches4 = ctr.tournament.createRound(teamsQuarterFinal);
+                        ctr.tournament.setRound(2);
+                        askForPause();
+                    } else if (ctr.tournament.getRound() == 2) {
 
-                    Team winner = ctr.tournament.resultOfFinal();
-                    fr.matchSave("src/matchData.txt");
-                    System.out.println("\n" + winner.getTeamName() + " is the winner of the Tournament!!");
-                    ctr.tournament.setTournamentFinished(true);
+
+                        // Quarter Finals
+                        System.out.println("\nQuarter Finals");
+                        System.out.println("============");
+                        for (Match m : ctr.tournament.getMatches4()) {
+                            System.out.println(m);
+                            Controller.matches.add(m);
+                            io.matchSave();
+                        }
+                        Team[] teamsSemiFinal = ctr.tournament.resultOfMatch4();
+                        ctr.tournament.matches2 = ctr.tournament.createRound(teamsSemiFinal);
+                        ctr.tournament.setRound(3);
+                        askForPause();
+                    } else if (ctr.tournament.getRound() == 3) {
+
+                        // Semi Finals
+                        System.out.println("\nSemiFinals");
+                        System.out.println("============");
+                        for (Match m : ctr.tournament.getMatches2()) {
+                            System.out.println(m);
+                            Controller.matches.add(m);
+                            io.matchSave();
+                        }
+                        Team[] teamsFinal = ctr.tournament.resultOfMatch2();
+                        ctr.tournament.finalMatch = ctr.tournament.createFinalRound(teamsFinal);
+                        ctr.tournament.setRound(4);
+                        askForPause();
+                    } else if (ctr.tournament.getRound() == 4) {
+
+
+                        // Final
+                        System.out.println("\nFinal");
+                        System.out.println("============");
+                        System.out.println(ctr.tournament.getFinalMatch());
+                        Controller.matches.add(ctr.tournament.getFinalMatch());
+                        io.matchSave();
+
+                        Team winner = ctr.tournament.resultOfFinal();
+                        io.matchSave();
+                        System.out.println("\n" + winner.getTeamName() + " is the winner of the Tournament!!");
+//                        ctr.tournament.setTournamentFinished(true);
+                        ctr.activeTournament = false;
+                        ctr.tournament.clearTeamsInActiveTournament();
+                        ctr.tournament = null;
+                        break;
+                    }
                 }
             } else System.out.println("\nStart tournament first.");
         } else System.out.println("\nNo Active tournament, please Create a new first.");
-
     }
 
-    public void currentRound() {
+    public void askForPause() {
+        String input = "";
+        System.out.println("\n======================================");
+        input = getUserInput("\nPress Y to continue to next round. N to leave: ").toLowerCase();
+        if (input.equals("y")) {
+            System.out.println("Continue");
+            paused = false;
+        } else if (input.equals("n")) {
+            System.out.println("\n Return later.");
+            paused = true;
+        } else {
+            System.out.println("\nWrong input");
+            askForPause();
+        }
 
 
     }
@@ -279,8 +320,8 @@ public class UI {
 
     public void eventCreateTeams() {
         ctr.teams.add(new Team()); // Creates a new team which then ask for details about team and player names
-        fr.teamSave("src/teamData.txt"); // Saves to teamData.txt everytime a new team is created.
-
+        io.teamSave();
+        io.playerSave();
     }
 
 
@@ -292,37 +333,6 @@ public class UI {
                     + t.getPlayer2().getPlayerName() + ") Teams Goals: "
                     + t.getTeamGoals() + " Team Points: " + t.getTeamPoints());
         }
-//        for (Player p : ctr.players) {
-//            System.out.println(p);
-//        }
-    }
-
-    public static ArrayList<Team> readTeamData() {
-        ArrayList<Team> teamList = new ArrayList<>();
-
-        File file = new File("src/teamData.txt");
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        if (scanner != null) {
-            while (scanner.hasNextLine()) {
-                String[] commaSeparatedValues = scanner.nextLine().split(",");
-                String teamName = commaSeparatedValues[0];
-                int teamID = Integer.parseInt(commaSeparatedValues[1]);
-                String player1 = commaSeparatedValues[2];
-                int player1ID = Integer.parseInt(commaSeparatedValues[3]);
-                String player2 = commaSeparatedValues[4];
-                int player2ID = Integer.parseInt(commaSeparatedValues[5]);
-
-                // We created a new constructor inside the Team class, which assigns the data to the respectable variables.
-                teamList.add(new Team(teamName, teamID, player1, player1ID, player2, player2ID));
-            }
-        }
-
-        return teamList;
     }
 
     public static String getUserInput(String msg) {
@@ -337,5 +347,4 @@ public class UI {
         Scanner scan = new Scanner(System.in);
         return scan.nextInt();
     }
-
 }

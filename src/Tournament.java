@@ -1,13 +1,12 @@
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class Tournament {
 
-    protected String tournamentName;
-    protected int tournamentID;
-    protected static int counter = 1;
+    private String tournamentName;
+    private int tournamentID;
+    private static int counter = 1;
 
     protected Team[] teamsInTournament; // Changed from teams
     protected boolean tournamentFull, tournamentStarted, tournamentFinished; // Important booleans to make sure user don't tries to access unavailable stages of the application
@@ -16,8 +15,7 @@ public class Tournament {
     // Each round have an array of matches
     protected Match[] matches8, matches4, matches2;  // Round 1, Quarter Final, Semi Final
     protected Match finalMatch;
-
-    protected FileReader fr = new FileReader();
+    private int round; // 4 rounds in total
 
     public Tournament(int numbTeams, String tournamentName) {
         this.tournamentName = tournamentName;
@@ -27,17 +25,17 @@ public class Tournament {
         tournamentFull = false;
         tournamentStarted = false;
         tournamentFinished = false;
+        round = 1;
         this.matches8 = new Match[8];
         this.matches4 = new Match[4];
         this.matches2 = new Match[2];
         this.finalMatch = new Match(new Team("first", 0), new Team("second", 0));
     }
 
+    // Will be used for loading from DBC
     public Tournament(int id, int match_id, int team_id1, int team_id2, int score, int points) {
 
-
     }
-
 
     // Get team from controller class, and checks if there is room in the tournament before adding it.
     public void addTeamToTournament(Team team) {
@@ -193,6 +191,12 @@ public class Tournament {
         return tempWinners;
     }
 
+    public void clearTeamsInActiveTournament() {
+        for(Team t : teamsInTournament) {
+            t.setAddedToActiveTournament(false);
+        }
+    }
+
 
     public boolean isTournamentFull() {
         return tournamentFull;
@@ -269,5 +273,13 @@ public class Tournament {
 
     public void setFinalMatch(Match finalMatch) {
         this.finalMatch = finalMatch;
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
     }
 }
